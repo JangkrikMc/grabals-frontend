@@ -367,7 +367,7 @@ useEffect(() => {
             <div className="flex justify-center">
               <img
                 className="rounded-2xl shadow-lg w-full max-w-xs"
-                src="/assets/foto/WhatsApp_Image_2025-09-22_at_16.00.43-removebg-preview.webp"
+                src="/assets/foto-members/WhatsApp_Image_2025-09-22_at_16.00.43-removebg-preview.webp"
                 alt="Welcome"
               />
             </div>
@@ -387,7 +387,7 @@ useEffect(() => {
             <div>
               <img
                 className="w-full h-60 object-cover rounded-xl shadow-md"
-                src="/assets/foto/WhatsApp_Image_2025-09-22_at_16.00.43-removebg-preview.webp"
+                src="/assets/foto-members/WhatsApp_Image_2025-09-22_at_16.00.43-removebg-preview.webp"
                 alt="Community"
               />
             </div>
