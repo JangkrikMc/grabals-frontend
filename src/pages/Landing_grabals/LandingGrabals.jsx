@@ -20,6 +20,12 @@ import {
   FaAward,
   FaComments
 } from "react-icons/fa";
+
+// Import modular components
+import CommunityBenefits from "../../components/LandingSections/CommunityBenefits";
+import MemberLogos from "../../components/LandingSections/MemberLogos";
+import FooterSection from "../../components/LandingSections/FooterSection";
+import ArtikelCyber from "../../components/LandingSections/ArtikelCyber";
 import { SiTypescript, SiMongodb, SiMysql, SiNextdotjs, SiTailwindcss, SiReact } from "react-icons/si";
 import Carousel from "../../assets/ReactBitsCompo/Carousel";
 import Stepper, { Step } from "../../assets/ReactBitsCompo/Stepper";
@@ -219,48 +225,48 @@ useEffect(() => {
   const [photosLoading, setPhotosLoading] = useState(true);
   const [imagesLoaded, setImagesLoaded] = useState(0);
   
-  // TRUE automatic discovery of ALL WebP photos in src/assets/foto-members directory
+  // Robust member photos loading with guaranteed fallback
   useEffect(() => {
-    const discoverAllPhotosAutomatically = async () => {
+    const loadMemberPhotos = async () => {
       try {
-        // Gunakan import.meta.glob untuk benar-benar auto-detect SEMUA foto WebP
-        const photoModules = import.meta.glob('/src/assets/foto-members/*.webp', { 
-          eager: true,
-          query: '?url',
-          import: 'default'
-        });
+        // Import member photos using Promise.all for better error handling
+        const photoImports = [
+          import('/src/assets/foto-members/WhatsApp_Image_2025-09-24_at_19.20.57.webp?url'),
+          import('/src/assets/foto-members/WhatsApp_Image_2025-09-24_at_19.20.58.webp?url'),
+          import('/src/assets/foto-members/WhatsApp_Image_2025-09-24_at_19.20.59.webp?url'),
+          import('/src/assets/foto-members/WhatsApp_Image_2025-09-24_at_19.21.02.webp?url')
+        ];
         
-        const photoList = [];
-        let memberIndex = 1;
+        const photoUrls = await Promise.all(photoImports);
         
-        // Process ALL discovered photos automatically
-        for (const [path, photoUrl] of Object.entries(photoModules)) {
-          const fileName = path.split('/').pop().replace('.webp', '');
-          
-          // Skip the main logo/community photo if present
-          if (!fileName.includes('WhatsApp_Image_2025-09-22')) {
-            photoList.push({
-              src: photoUrl,
-              alt: `Member ${memberIndex}`,
-              href: "#",
-              fileName: fileName
-            });
-            memberIndex++;
-          }
-        }
+        const photoList = photoUrls.map((module, index) => ({
+          src: module.default,
+          alt: `Member ${index + 1}`,
+          href: "#",
+          fileName: `member-${index + 1}`
+        }));
         
-        // Sort by filename for consistent order
-        photoList.sort((a, b) => a.fileName.localeCompare(b.fileName));
-        
+        console.log('Loaded member photos successfully:', photoList);
         setMemberPhotos(photoList);
+        setPhotosLoading(false);
         
       } catch (error) {
-        // Fallback kosong - tidak ada foto hardcoded
-        setMemberPhotos([]);
+        console.error('Error loading member photos, using placeholder fallback:', error);
+        // Reliable fallback with placeholder data that guarantees UI works
+        const placeholderPhotos = [
+          { src: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDgiIGhlaWdodD0iNDgiIHZpZXdCb3g9IjAgMCA0OCA0OCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjQ4IiBoZWlnaHQ9IjQ4IiByeD0iMjQiIGZpbGw9IiMzNzQxNTEiLz4KPHN2ZyB4PSIxMiIgeT0iMTIiIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIj4KPHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGZpbGw9Im5vbmUiIHZpZXdCb3g9IjAgMCAyNCAyNCIgc3Ryb2tlLXdpZHRoPSIxLjUiIHN0cm9rZT0iIzlDQTNBRiI+CiAgPHBhdGggc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBkPSJNMTUuNzUgNmEzLjc1IDMuNzUgMCAxMS03LjUgMCAzLjc1IDMuNzUgMCAwMTcuNSAwek00LjUwMSAyMC4xMThhNy41IDcuNSAwIDAxMTQuOTk4IDBNMTUuNzUgNmEzLjc1IDMuNzUgMCAxMS03LjUgMCAzLjc1IDMuNzUgMCAwMTcuNSAweiIgLz4KICA8L3N2Zz4KPC9zdmc+Cjwvc3ZnPgo=', alt: 'Member 1', href: '#', fileName: 'member-1' },
+          { src: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDgiIGhlaWdodD0iNDgiIHZpZXdCb3g9IjAgMCA0OCA0OCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjQ4IiBoZWlnaHQ9IjQ4IiByeD0iMjQiIGZpbGw9IiMzNzQxNTEiLz4KPHN2ZyB4PSIxMiIgeT0iMTIiIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIj4KPHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGZpbGw9Im5vbmUiIHZpZXdCb3g9IjAgMCAyNCAyNCIgc3Ryb2tlLXdpZHRoPSIxLjUiIHN0cm9rZT0iIzlDQTNBRiI+CiAgPHBhdGggc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBkPSJNMTUuNzUgNmEzLjc1IDMuNzUgMCAxMS03LjUgMCAzLjc1IDMuNzUgMCAwMTcuNSAwek00LjUwMSAyMC4xMThhNy41IDcuNSAwIDAxMTQuOTk4IDBNMTUuNzUgNmEzLjc1IDMuNzUgMCAxMS03LjUgMCAzLjc1IDMuNzUgMCAwMTcuNSAweiIgLz4KICA8L3N2Zz4KPC9zdmc+Cjwvc3ZnPgo=', alt: 'Member 2', href: '#', fileName: 'member-2' },
+          { src: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDgiIGhlaWdodD0iNDgiIHZpZXdCb3g9IjAgMCA0OCA0OCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjQ4IiBoZWlnaHQ9IjQ4IiByeD0iMjQiIGZpbGw9IiMzNzQxNTEiLz4KPHN2ZyB4PSIxMiIgeT0iMTIiIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIj4KPHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGZpbGw9Im5vbmUiIHZpZXdCb3g9IjAgMCAyNCAyNCIgc3Ryb2tlLXdpZHRoPSIxLjUiIHN0cm9rZT0iIzlDQTNBRiI+CiAgPHBhdGggc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBkPSJNMTUuNzUgNmEzLjc1IDMuNzUgMCAxMS03LjUgMCAzLjc1IDMuNzUgMCAwMTcuNSAwek00LjUwMSAyMC4xMThhNy41IDcuNSAwIDAxMTQuOTk4IDBNMTUuNzUgNmEzLjc1IDMuNzUgMCAxMS03LjUgMCAzLjc1IDMuNzUgMCAwMTcuNSAweiIgLz4KICA8L3N2Zz4KPC9zdmc+Cjwvc3ZnPgo=', alt: 'Member 3', href: '#', fileName: 'member-3' },
+          { src: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDgiIGhlaWdodD0iNDgiIHZpZXdCb3g9IjAgMCA0OCA0OCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjQ4IiBoZWlnaHQ9IjQ4IiByeD0iMjQiIGZpbGw9IiMzNzQxNTEiLz4KPHN2ZyB4PSIxMiIgeT0iMTIiIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIj4KPHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGZpbGw9Im5vbmUiIHZpZXdCb3g9IjAgMCAyNCAyNCIgc3Ryb2tlLXdpZHRoPSIxLjUiIHN0cm9rZT0iIzlDQTNBRiI+CiAgPHBhdGggc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBkPSJNMTUuNzUgNmEzLjc1IDMuNzUgMCAxMS03LjUgMCAzLjc1IDMuNzUgMCAwMTcuNSAwek00LjUwMSAyMC4xMThhNy41IDcuNSAwIDAxMTQuOTk4IDBNMTUuNzUgNmEzLjc1IDMuNzUgMCAxMS03LjUgMCAzLjc1IDMuNzUgMCAwMTcuNSAweiIgLz4KICA8L3N2Zz4KPC9zdmc+Cjwvc3ZnPgo=', alt: 'Member 4', href: '#', fileName: 'member-4' }
+        ];
+        
+        console.log('Using placeholder member photos due to import failure');
+        setMemberPhotos(placeholderPhotos);
+        setPhotosLoading(false);
       }
     };
     
-    discoverAllPhotosAutomatically();
+    loadMemberPhotos();
   }, []);
 
   // Fungsi untuk handle loading state foto
@@ -617,131 +623,33 @@ useEffect(() => {
   <h2 className="text-2xl font-semibold text-slate-200 mx-auto text-center" style={{ fontFamily: "Inter, sans-serif" }}> Artikel Blog</h2>
   <ArtikelCyber/>
 
-  {/* Kenapa Bergabung */}
-  <div ref={Elemen7} id="community" className="w-full py-20 px-8 text-center backdrop-blur-sm">
-  <h2 className="text-3xl md:text-4xl font-semibold text-white mb-8 glow-bg" style={{ fontFamily: "Inter, sans-serif" }}>
-    Kenapa Bergabung?
-  </h2>
+  {/* Kenapa Bergabung - Using Modular Component */}
+  <CommunityBenefits refs={{ Elemen7, Elemen8, Elemen9, Elemen10 }} />
 
-  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 max-w-5xl mx-auto px-4">
-
-    <div ref={Elemen8} className="bg-white/5 border border-white/20 rounded-2xl p-5 flex flex-col items-center shadow-md hover:scale-[1.02] transition">
-      <FaLightbulb className="text-3xl text-amber-400 mb-2" />
-      <h3 className="text-md font-semibold text-neutral-200 mb-1">Belajar & Eksperimen</h3>
-      <p className="text-gray-400 text-xs text-center">Kuasai teknologi baru dengan proyek nyata dan diskusi interaktif.</p>
-    </div>
-
-    <div ref={Elemen9} className="bg-white/5 border border-white/20 rounded-2xl p-5 flex flex-col items-center shadow-md hover:scale-[1.02] transition">
-      <FaUsers className="text-3xl text-emerald-400 mb-2" />
-      <h3 className="text-md font-semibold text-neutral-200 mb-1">Networking</h3>
-      <p className="text-gray-400 text-xs text-center">Bangun koneksi dengan developer, designer, dan kreator lain yang suportif.</p>
-    </div>
-
-    <div ref={Elemen10} className="bg-white/5 border border-white/20 rounded-2xl p-5 flex flex-col items-center shadow-md hover:scale-[1.02] transition">
-      <FaRocket className="text-3xl text-rose-400 mb-2" />
-      <h3 className="text-md font-semibold text-neutral-200 mb-1">Proyek Nyata</h3>
-      <p className="text-gray-400 text-xs text-center">Terlibat di proyek komunitas yang menantang dan inovatif.</p>
-    </div>
-
-    
-
-   </div>
-</div>
-
- <div className="p-4">
+ <div className="py-8 px-4 text-center max-w-4xl mx-auto">
    <ScrollReveal
-  baseOpacity={10}
-  enableBlur={true}
-  baseRotation={10}
-  blurStrength={10}
->
-  Kapan seseorang benar-benar maju? Saat dia berjuang sendirian? Tidak! Saat dia punya komunitas yang saling dukung. Dan itulah Grabals Community — tempatmu bertumbuh, berbagi, dan melangkah bersama.
-</ScrollReveal>
+     baseOpacity={10}
+     enableBlur={true}
+     baseRotation={10}
+     blurStrength={10}
+   >
+     <p className="text-lg md:text-xl text-gray-300 leading-relaxed italic font-light" style={{ fontFamily: "Inter, sans-serif" }}>
+       Kapan seseorang benar-benar maju? Saat dia berjuang sendirian? Tidak! Saat dia punya komunitas yang saling dukung. Dan itulah Grabals Community — tempatmu bertumbuh, berbagi, dan melangkah bersama.
+     </p>
+   </ScrollReveal>
  </div>
 
- <div ref={Elemen11} className="mt-12 sm:mt-20 items-center shadow-lg grid grid-cols-1 sm:grid-cols-[40%_60%] gap-4 sm:gap-0">
-            <div className="h-20 flex items-center justify-center">
-              <ShinyText
-                text="Member"
-                speed={10}
-                className="text-neutral-600 text-lg font-bold"
-              />
-            </div>
-
-           <div className="mt-8" style={{ height: '80px', position: 'relative', overflow: 'hidden'}}>
-              {photosLoading ? (
-                <div className="flex items-center justify-center h-full">
-                  <div className="flex items-center space-x-2 text-gray-400">
-                    <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-emerald-500"></div>
-                    <span className="text-sm">Memuat foto member... ({imagesLoaded}/{memberPhotos.length})</span>
-                  </div>
-                </div>
-              ) : (
-                <LogoLoop
-                  logos={memberPhotos}
-                  speed={150}
-                  direction="left"
-                  logoHeight={48}
-                  gap={50}
-                  pauseOnHover
-                  scaleOnHover
-                  fadeOut
-                  fadeOutColor="#151414ff"
-                  ariaLabel="Member photos"
-                />
-              )}
-             </div>
-            <div>
-
-            </div>
-              
-        </div>
+ {/* Member Photos - Using Modular Component */}
+ <MemberLogos 
+   refs={{ Elemen11 }} 
+   imageLogos={memberPhotos}
+   photosLoading={photosLoading}
+   imagesLoaded={imagesLoaded}
+ />
 
 
-{/* Footer */}
-<footer ref={Elemen12} className="relative text-gray-300 px-8 py-12 mt-8 border-t border-gray-700 bg-black/20 overflow-hidden">
-  {/* Background LaserFlow */}
-
-  {/* Konten Footer */}
-  <div className="relative z-10 max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
-    <div className="flex flex-col space-y-4">
-      <h3 className="text-white font-bold text-xl" style={{ fontFamily: "Inter, sans-serif" }}>Grabals</h3>
-      <p className="text-gray-400 text-lg">
-        Komunitas kolaboratif untuk developer, designer, dan tech enthusiast. Belajar dan bangun proyek bersama.
-      </p>
-    </div>
-    
-
-    <div className="flex flex-col space-y-2">
-      <h4 className="text-white font-semibold" style={{ fontFamily: "Inter, sans-serif" }}>Quick Links</h4>
-      <a href="#hero" className="hover:text-emerald-500 transition">Home</a>
-      <a href="#about" className="hover:text-emerald-500 transition">About</a>
-      <a href="#community" className="hover:text-emerald-500 transition">Community</a>
-      <a href="#contact" className="hover:text-emerald-500 transition">Contact</a>
-    </div>
-
-    <div className="flex flex-col space-y-2">
-      <h4 className="text-white font-semibold" style={{ fontFamily: "Inter, sans-serif" }}>Social Media</h4>
-      <div className="flex space-x-4">
-        <a href="#" className="hover:text-emerald-500 transition">Twitter</a>
-        <a href="#" className="hover:text-emerald-500 transition">Instagram</a>
-        <a href="#" className="hover:text-emerald-500 transition">LinkedIn</a>
-        <a href="#" className="hover:text-emerald-500 transition">GitHub</a>
-      </div>
-    </div>
-  </div>
-
-
-<div className="absolute inset-0 z-1000 pointer-events-none h-full">
-    <LaserFlow />
-  </div>
-  
-
-  <div className="relative z-10 text-center text-gray-500 text-sm mt-8">
-  
-    &copy; {new Date().getFullYear()} Grabals. All rights reserved.
-  </div>
-</footer>
+{/* Footer - Using Modular Component */}
+<FooterSection refs={{ Elemen12 }} />
 
 
 </section>
@@ -930,55 +838,3 @@ const LoginOrSignUpModal = () => {
   )
 }
 
-export function ArtikelCyber() {
-  return (
-    <div className="max-w-4xl mx-auto p-6">
-
-      <Swiper spaceBetween={30} slidesPerView={1}>
-        
-        {/* Halaman 1 */}
-        <SwiperSlide>
-          <div className="bg-white/80  rounded-2xl shadow-lg p-6">
-            <h2 className="text-3xl font-bold mb-4 text-gray-800">
-              Apa itu Cyber Security?
-            </h2>
-            <p className="text-gray-600 leading-relaxed mb-6">
-              Cyber security adalah upaya melindungi sistem, jaringan, dan data 
-              dari serangan digital. Dalam dunia modern, ancaman seperti 
-              malware, phishing, dan serangan DDoS bisa merugikan individu 
-              maupun organisasi.
-            </p>
-            <img 
-              src="https://iili.io/KEVuXFp.md.webp" 
-              alt="Cyber Security" 
-              className="rounded-xl shadow-md mx-auto"
-            />
-          </div>
-        </SwiperSlide>
-
-        {/* Halaman 2 */}
-        <SwiperSlide>
-          <div className="bg-white/80  rounded-2xl shadow-lg p-6">
-            <h2 className="text-3xl font-bold mb-4 text-gray-800">
-              Cara Sederhana Melindungi Diri
-            </h2>
-            <p className="text-gray-600 leading-relaxed mb-6">
-              Untuk menjaga keamanan digital, kamu bisa memulai dari langkah 
-              kecil yang sederhana:
-            </p>
-            <ul className="list-disc list-inside text-gray-600 space-y-2">
-              <li>Gunakan password yang kuat dan unik.</li>
-              <li>Aktifkan autentikasi dua faktor (2FA).</li>
-              <li>Hindari klik link mencurigakan di email.</li>
-              <li>Selalu update software & aplikasi.</li>
-            </ul>
-            <p className="text-gray-600 leading-relaxed mt-6">
-              Dengan kebiasaan ini, resiko terkena serangan bisa jauh berkurang.
-            </p>
-          </div>
-        </SwiperSlide>
-        
-      </Swiper>
-    </div>
-  );
-}
