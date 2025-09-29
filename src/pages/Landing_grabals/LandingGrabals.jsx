@@ -14,12 +14,15 @@ import MemberChart from "../../components/LandingSections/MemberChart";
 import StatsSection from "../../components/LandingSections/StatsSection";
 import CommunityBenefits from "../../components/LandingSections/CommunityBenefits";
 import FooterSection from "../../components/LandingSections/FooterSection";
-import ArtikelCyber from "../../components/LandingSections/ArtikelCyber";
 import TechStack from "../../components/LandingSections/TechStack";
 import ScrollReveal from "/src/assets/ReactBitsCompo/ScrollDown";
 import ShinyText from "/src/assets/ReactBitsCompo/ShinyText";
 import LogoLoop from "/src/assets/ReactBitsCompo/LogoLoop";
 import LaserFlow from "/src/assets/ReactBitsCompo/LaserFlow";
+
+// Import artikel components dan data
+import ArtikelLanding from "../../components/artikel/ArtikelLanding";
+import artikelData from "../../data/artikelData";
 
 // --- PASANG LISTENER GLOBAL SEKALI ---
 const handleBgScroll = () => {
@@ -283,7 +286,7 @@ export default function LandingGrabals() {
       <h2 className="text-2xl font-semibold text-slate-200 mx-auto text-center" style={{ fontFamily: "Inter, sans-serif" }}> 
         Artikel Blog
       </h2>
-      <ArtikelCyber />
+      <ArtikelLanding artikelList={artikelData.slice(0, 2)} />
 
       {/* Kenapa Bergabung */}
       <CommunityBenefits refs={{Elemen7, Elemen8, Elemen9, Elemen10}} />

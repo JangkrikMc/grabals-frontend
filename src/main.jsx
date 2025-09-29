@@ -8,6 +8,8 @@ import "./index.css";
 import Home from "./pages/Home";
 import About from "./pages/About";
 import LandingGrabals from "./pages/Landing_grabals/LandingGrabals";
+import ArtikelPage from "./pages/Artikel/ArtikelPage";
+import ArtikelDetailPage from "./pages/Artikel/ArtikelDetailPage";
 
 const router = createBrowserRouter([
   {
@@ -21,6 +23,14 @@ const router = createBrowserRouter([
   {
     path: "/about",
     element: <About />,
+  },
+  {
+    path: "/artikel",
+    element: <ArtikelPage />,
+  },
+  {
+    path: "/artikel/:id",
+    element: <ArtikelDetailPage />,
   },
 ]);
 
