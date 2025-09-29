@@ -100,12 +100,16 @@ const LoginModal = ({ isOpen, closeModal }) => {
   const handleRegister = (e) => {
     e.preventDefault();
     // Contoh integrasi dengan backend
-    // Register dengan: { 
+    // Register dengan data berikut:
+    const registerData = {
       name: registerName, 
       email: registerEmail, 
       password: registerPassword,
       birthdate: registerBirthdate
-    });
+    };
+    
+    console.log('Register data:', registerData);
+    
     // Implementasi register sebenarnya akan mengirim request ke backend
     // Contoh:
     // api.post('/auth/register', { 
