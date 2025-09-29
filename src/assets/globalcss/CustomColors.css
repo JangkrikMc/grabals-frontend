@@ -1,0 +1,118 @@
+/* CustomColors.css - File untuk menyimpan variabel warna kustom */
+
+:root {
+  /* Warna Kustom */
+  --eggplant: #66455A;
+  --ecru: #C6AD7E;
+  --rose-quartz: #B4A2B5;
+  --lavender-web: #D5D0DF;
+  --raisin-black: #282130;
+
+  /* Gradien */
+  --gradient-top: linear-gradient(0deg, #66455A, #C6AD7E, #B4A2B5, #D5D0DF, #282130);
+  --gradient-right: linear-gradient(90deg, #66455A, #C6AD7E, #B4A2B5, #D5D0DF, #282130);
+  --gradient-bottom: linear-gradient(180deg, #66455A, #C6AD7E, #B4A2B5, #D5D0DF, #282130);
+  --gradient-left: linear-gradient(270deg, #66455A, #C6AD7E, #B4A2B5, #D5D0DF, #282130);
+  --gradient-top-right: linear-gradient(45deg, #66455A, #C6AD7E, #B4A2B5, #D5D0DF, #282130);
+  --gradient-bottom-right: linear-gradient(135deg, #66455A, #C6AD7E, #B4A2B5, #D5D0DF, #282130);
+  --gradient-top-left: linear-gradient(225deg, #66455A, #C6AD7E, #B4A2B5, #D5D0DF, #282130);
+  --gradient-bottom-left: linear-gradient(315deg, #66455A, #C6AD7E, #B4A2B5, #D5D0DF, #282130);
+  --gradient-radial: radial-gradient(#66455A, #C6AD7E, #B4A2B5, #D5D0DF, #282130);
+  
+  /* Gradien khusus untuk background */
+  --gradient-bg: linear-gradient(135deg, rgba(40, 33, 48, 0.95) 0%, rgba(102, 69, 90, 0.9) 100%);
+  
+  /* Warna untuk tombol dan elemen UI */
+  --primary-button: var(--ecru);
+  --primary-button-hover: #d8c090;
+  --secondary-button: var(--eggplant);
+  --secondary-button-hover: #7a5670;
+  --accent-color: var(--rose-quartz);
+  --text-light: var(--lavender-web);
+  --text-dark: var(--raisin-black);
+  --background-dark: var(--raisin-black);
+  --background-light: var(--lavender-web);
+}
+
+/* Kelas utilitas untuk warna */
+.bg-eggplant { background-color: var(--eggplant); }
+.bg-ecru { background-color: var(--ecru); }
+.bg-rose-quartz { background-color: var(--rose-quartz); }
+.bg-lavender-web { background-color: var(--lavender-web); }
+.bg-raisin-black { background-color: var(--raisin-black); }
+
+.text-eggplant { color: var(--eggplant); }
+.text-ecru { color: var(--ecru); }
+.text-rose-quartz { color: var(--rose-quartz); }
+.text-lavender-web { color: var(--lavender-web); }
+.text-raisin-black { color: var(--raisin-black); }
+
+.border-eggplant { border-color: var(--eggplant); }
+.border-ecru { border-color: var(--ecru); }
+.border-rose-quartz { border-color: var(--rose-quartz); }
+.border-lavender-web { border-color: var(--lavender-web); }
+.border-raisin-black { border-color: var(--raisin-black); }
+
+/* Kelas untuk tombol */
+.btn-primary {
+  background-color: var(--primary-button);
+  color: var(--text-dark);
+  transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+  background-color: var(--primary-button-hover);
+}
+
+.btn-secondary {
+  background-color: var(--secondary-button);
+  color: var(--text-light);
+  transition: all 0.3s ease;
+}
+
+.btn-secondary:hover {
+  background-color: var(--secondary-button-hover);
+}
+
+/* Kelas untuk gradien */
+.gradient-bg {
+  background: var(--gradient-bg);
+}
+
+/* Override warna emerald dengan warna kustom kita */
+.bg-emerald-500 {
+  background-color: var(--ecru) !important;
+}
+
+.bg-emerald-600 {
+  background-color: var(--eggplant) !important;
+}
+
+.hover\:bg-emerald-600:hover {
+  background-color: var(--eggplant) !important;
+}
+
+.hover\:bg-emerald-700:hover {
+  background-color: var(--secondary-button-hover) !important;
+}
+
+.text-emerald-500 {
+  color: var(--ecru) !important;
+}
+
+.text-emerald-600 {
+  color: var(--eggplant) !important;
+}
+
+.hover\:text-emerald-400:hover {
+  color: var(--primary-button-hover) !important;
+}
+
+.focus\:ring-emerald-500:focus {
+  --tw-ring-color: var(--ecru) !important;
+}
+
+/* Untuk form input */
+.focus\:ring-2:focus {
+  --tw-ring-color: var(--ecru) !important;
+}

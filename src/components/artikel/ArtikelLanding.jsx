@@ -5,6 +5,7 @@ import ArtikelCard from "./ArtikelCard";
 /**
  * Komponen ArtikelLanding - Menampilkan maksimal 2 artikel di landing page
  * dengan tombol untuk melihat semua artikel
+ * Menggunakan warna kustom dari CustomColors.css
  * 
  * @param {Object} props - Properties komponen
  * @param {Array} props.artikelList - Daftar artikel yang akan ditampilkan
@@ -17,12 +18,12 @@ const ArtikelLanding = ({ artikelList = [] }) => {
   return (
     <div className="max-w-6xl mx-auto px-4 py-12">
       <div className="flex justify-between items-center mb-8">
-        <h2 className="text-2xl font-bold text-slate-200">
+        <h2 className="text-2xl font-bold text-lavender-web">
           Artikel Terbaru
         </h2>
         <Link 
           to="/artikel" 
-          className="flex items-center text-emerald-400 hover:text-emerald-300 transition-colors"
+          className="flex items-center text-ecru hover:text-rose-quartz transition-colors"
         >
           <span>Lihat Semua Artikel</span>
           <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -47,8 +48,8 @@ const ArtikelLanding = ({ artikelList = [] }) => {
           ))}
         </div>
       ) : (
-        <div className="bg-gray-800/50 border border-gray-700 rounded-lg p-8 text-center">
-          <p className="text-slate-300">Belum ada artikel yang tersedia.</p>
+        <div className="bg-eggplant/20 border border-eggplant/30 rounded-lg p-8 text-center">
+          <p className="text-lavender-web">Belum ada artikel yang tersedia.</p>
         </div>
       )}
     </div>

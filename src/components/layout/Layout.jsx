@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Header from "./Header";
 import Sidebar from "./Sidebar";
 import LoginModal from "../auth/LoginModal";
+import FooterSection from "../LandingSections/FooterSection";
 
 /**
  * Komponen Layout - Wrapper untuk semua halaman dengan header dan sidebar
@@ -44,6 +45,11 @@ const Layout = ({ children, isLoginModalOpen: externalLoginModalOpen, setIsLogin
     setIsLoginModalOpen(false);
   };
 
+  // Dummy refs untuk footer
+  const footerRefs = {
+    Elemen12: React.createRef()
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-neutral-950 via-neutral-900 to-black text-white">
       {/* Header */}
@@ -63,9 +69,12 @@ const Layout = ({ children, isLoginModalOpen: externalLoginModalOpen, setIsLogin
       />
 
       {/* Main Content */}
-      <main className="pt-16">
+      <main className="pt-16 min-h-[calc(100vh-300px)]">
         {children}
       </main>
+
+      {/* Footer */}
+      <FooterSection refs={footerRefs} />
     </div>
   );
 };

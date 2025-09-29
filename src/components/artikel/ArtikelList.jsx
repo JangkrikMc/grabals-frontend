@@ -3,6 +3,7 @@ import ArtikelCard from "./ArtikelCard";
 
 /**
  * Komponen ArtikelList - Menampilkan daftar artikel lengkap dengan fitur filter dan pagination
+ * Menggunakan warna kustom dari CustomColors.css
  * 
  * @param {Object} props - Properties komponen
  * @param {Array} props.artikelList - Daftar artikel yang akan ditampilkan
@@ -43,7 +44,7 @@ const ArtikelList = ({ artikelList = [], searchTerm = "" }) => {
       {/* Informasi hasil pencarian jika ada */}
       {searchTerm && (
         <div className="mb-6">
-          <p className="text-slate-300">
+          <p className="text-lavender-web">
             {filteredArtikels.length} hasil pencarian untuk "{searchTerm}"
           </p>
         </div>
@@ -65,8 +66,8 @@ const ArtikelList = ({ artikelList = [], searchTerm = "" }) => {
           ))}
         </div>
       ) : (
-        <div className="bg-gray-800/50 border border-gray-700 rounded-lg p-8 text-center">
-          <p className="text-slate-300">
+        <div className="bg-eggplant/20 border border-eggplant/30 rounded-lg p-8 text-center">
+          <p className="text-lavender-web">
             {searchTerm 
               ? `Tidak ada artikel yang sesuai dengan pencarian "${searchTerm}".` 
               : "Belum ada artikel yang tersedia."}
@@ -84,8 +85,8 @@ const ArtikelList = ({ artikelList = [], searchTerm = "" }) => {
               disabled={currentPage === 1}
               className={`px-3 py-1 rounded-md ${
                 currentPage === 1
-                  ? "bg-gray-800 text-gray-500 cursor-not-allowed"
-                  : "bg-gray-800 text-white hover:bg-gray-700 border border-gray-700"
+                  ? "bg-raisin-black text-gray-500 cursor-not-allowed"
+                  : "bg-raisin-black text-lavender-web hover:bg-eggplant/30 border border-eggplant/30"
               }`}
             >
               <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -100,8 +101,8 @@ const ArtikelList = ({ artikelList = [], searchTerm = "" }) => {
                 onClick={() => handlePageChange(index + 1)}
                 className={`px-3 py-1 rounded-md ${
                   currentPage === index + 1
-                    ? "bg-emerald-600 text-white border border-emerald-500"
-                    : "bg-gray-800 text-white hover:bg-gray-700 border border-gray-700"
+                    ? "bg-eggplant text-lavender-web border border-eggplant"
+                    : "bg-raisin-black text-lavender-web hover:bg-eggplant/30 border border-eggplant/30"
                 }`}
               >
                 {index + 1}
@@ -114,8 +115,8 @@ const ArtikelList = ({ artikelList = [], searchTerm = "" }) => {
               disabled={currentPage === totalPages}
               className={`px-3 py-1 rounded-md ${
                 currentPage === totalPages
-                  ? "bg-gray-800 text-gray-500 cursor-not-allowed"
-                  : "bg-gray-800 text-white hover:bg-gray-700 border border-gray-700"
+                  ? "bg-raisin-black text-gray-500 cursor-not-allowed"
+                  : "bg-raisin-black text-lavender-web hover:bg-eggplant/30 border border-eggplant/30"
               }`}
             >
               <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">

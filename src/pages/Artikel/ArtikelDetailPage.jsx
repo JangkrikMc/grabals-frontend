@@ -4,6 +4,7 @@ import Layout from "../../components/layout/Layout";
 
 /**
  * Halaman ArtikelDetailPage - Menampilkan detail lengkap dari sebuah artikel
+ * Menggunakan warna kustom dari CustomColors.css
  * 
  * @returns {JSX.Element} Halaman ArtikelDetailPage
  */
@@ -168,14 +169,14 @@ const ArtikelDetailPage = () => {
     <Layout>
       <div className="min-h-screen">
         {/* Header Artikel */}
-        <header className="bg-gradient-to-r from-gray-900 to-gray-800 shadow-lg border-b border-gray-700">
+        <header className="bg-gradient-to-r from-raisin-black to-eggplant/70 shadow-lg border-b border-eggplant/30">
           <div className="max-w-6xl mx-auto px-4 py-6">
             <div className="flex justify-between items-center">
               <div className="flex items-center">
-                <div className="flex items-center justify-center w-10 h-10 bg-emerald-600 rounded-lg mr-3">
+                <div className="flex items-center justify-center w-10 h-10 bg-eggplant rounded-lg mr-3">
                   <svg 
                     xmlns="http://www.w3.org/2000/svg" 
-                    className="h-6 w-6 text-white" 
+                    className="h-6 w-6 text-lavender-web" 
                     viewBox="0 0 24 24" 
                     fill="none" 
                     stroke="currentColor" 
@@ -187,13 +188,13 @@ const ArtikelDetailPage = () => {
                     <polyline points="8 6 2 12 8 18"></polyline>
                   </svg>
                 </div>
-                <h1 className="text-2xl font-bold text-white">Grabals Blog</h1>
+                <h1 className="text-2xl font-bold text-lavender-web">Grabals Blog</h1>
               </div>
               
               {/* Tombol Kembali */}
               <Link
                 to="/artikel"
-                className="flex items-center text-white bg-gray-800 hover:bg-gray-700 px-4 py-2 rounded-lg transition-colors border border-gray-700"
+                className="flex items-center text-lavender-web bg-eggplant/30 hover:bg-eggplant/50 px-4 py-2 rounded-lg transition-colors border border-eggplant/30"
               >
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
@@ -208,12 +209,12 @@ const ArtikelDetailPage = () => {
         <main className="max-w-4xl mx-auto px-4 py-8">
           {isLoading ? (
             <div className="flex justify-center items-center h-64">
-              <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-emerald-500"></div>
+              <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-ecru"></div>
             </div>
           ) : error ? (
             <div className="bg-red-500/20 border border-red-500 rounded-lg p-6 text-center">
               <p className="text-red-300">{error}</p>
-              <Link to="/artikel" className="mt-4 inline-block bg-emerald-500 hover:bg-emerald-600 text-white px-4 py-2 rounded-lg transition-colors">
+              <Link to="/artikel" className="mt-4 inline-block bg-ecru hover:bg-eggplant text-raisin-black hover:text-lavender-web px-4 py-2 rounded-lg transition-colors">
                 Kembali ke Daftar Artikel
               </Link>
             </div>
@@ -221,7 +222,7 @@ const ArtikelDetailPage = () => {
             <article>
               {/* Header Artikel */}
               <header className="mb-8">
-                <h1 className="text-3xl md:text-4xl font-bold mb-4 text-white">{artikel.judul}</h1>
+                <h1 className="text-3xl md:text-4xl font-bold mb-4 text-lavender-web">{artikel.judul}</h1>
                 
                 <div className="flex flex-wrap items-center text-sm text-gray-400 mb-6 gap-4">
                   {/* Tanggal */}
@@ -269,13 +270,13 @@ const ArtikelDetailPage = () => {
               
               {/* Tags */}
               {artikel.tags && artikel.tags.length > 0 && (
-                <div className="mt-8 pt-6 border-t border-gray-700">
-                  <h3 className="text-lg font-semibold mb-3">Tags:</h3>
+                <div className="mt-8 pt-6 border-t border-eggplant/30">
+                  <h3 className="text-lg font-semibold mb-3 text-lavender-web">Tags:</h3>
                   <div className="flex flex-wrap gap-2">
                     {artikel.tags.map((tag, index) => (
                       <span 
                         key={index}
-                        className="bg-gray-700 text-gray-300 px-3 py-1 rounded-full text-sm"
+                        className="bg-eggplant/30 text-lavender-web px-3 py-1 rounded-full text-sm"
                       >
                         #{tag}
                       </span>

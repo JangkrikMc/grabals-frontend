@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import '../../assets/globalcss/Background.css';
+import '../../assets/globalcss/CustomColors.css'; // Import file CSS kustom
 import { animate } from "animejs";
 
 // Import components
@@ -66,6 +67,9 @@ export default function LandingGrabals() {
   const Elemen10 = useRef(null);
   const Elemen11 = useRef(null);
   const Elemen12 = useRef(null);
+  const Elemen13 = useRef(null);
+  const Elemen14 = useRef(null);
+  const Elemen15 = useRef(null);
   const semuaelemen = [Elemen1, Elemen2, Elemen3, Elemen4, Elemen5, Elemen6, Elemen7, Elemen11, Elemen12];
 
   useEffect(() => {
@@ -127,6 +131,28 @@ export default function LandingGrabals() {
                 { duration: 0.7, easing: "easeOutExpo" }
               );
             }
+            // Animasi untuk card baru
+            if (entry.target === Elemen13.current) {
+              animate(
+                entry.target,
+                { opacity: [0, 1], x: [-100, 0] }, // geser dari kiri
+                { duration: 0.7, easing: "easeOutExpo" }
+              );
+            }
+            if (entry.target === Elemen14.current) {
+              animate(
+                entry.target,
+                { opacity: [0, 1], x: [100, 0] }, // geser dari kanan
+                { duration: 0.7, easing: "easeOutExpo" }
+              );
+            }
+            if (entry.target === Elemen15.current) {
+              animate(
+                entry.target,
+                { opacity: [0, 1], x: [-100, 0] }, // geser dari kiri
+                { duration: 0.7, easing: "easeOutExpo" }
+              );
+            }
             observer.unobserve(entry.target);
           }
         });
@@ -134,12 +160,12 @@ export default function LandingGrabals() {
       { threshold: 0.2 }
     );
 
-    [Elemen8, Elemen9, Elemen10].forEach((el) => {
+    [Elemen8, Elemen9, Elemen10, Elemen13, Elemen14, Elemen15].forEach((el) => {
       if (el.current) {
         // default state
         el.current.style.opacity = 0;
         el.current.style.transform =
-          el === Elemen9 ? "translateX(-100px)" : "translateX(100px)";
+          (el === Elemen9 || el === Elemen13 || el === Elemen15) ? "translateX(-100px)" : "translateX(100px)";
 
         observer.observe(el.current);
       }
@@ -228,7 +254,7 @@ export default function LandingGrabals() {
   const handleJoinClick = () => {
     // Buka modal login
     setIsLoginModalOpen(true);
-    console.log("Join button clicked, setting modal open to true");
+    // Join button clicked, setting modal open to true
   };
 
   const handleScrollToTop = () => {
@@ -238,121 +264,113 @@ export default function LandingGrabals() {
     }
   };
 
-  // Fungsi untuk toggle sidebar
-  const toggleSidebar = () => {
-    setIsSidebarOpen(!isSidebarOpen);
-  };
-
-  // Fungsi untuk menutup sidebar
-  const closeSidebar = () => {
-    setIsSidebarOpen(false);
-  };
-
-  // Fungsi untuk menutup modal login
-  const closeLoginModal = () => {
-    setIsLoginModalOpen(false);
-  };
-
   return (
-    <div className="min-h-screen bg-gradient-to-b from-neutral-950 via-neutral-900 to-black text-white">
-      {/* Header */}
-      <Header toggleSidebar={toggleSidebar} />
-
-      {/* Sidebar */}
-      <Sidebar 
-        isOpen={isSidebarOpen} 
-        closeSidebar={closeSidebar} 
-        openLoginModal={() => setIsLoginModalOpen(true)}
-      />
-
-      {/* Login Modal */}
-      <LoginModal 
-        isOpen={isLoginModalOpen} 
-        closeModal={closeLoginModal} 
-      />
-
-      <section
-        ref={root}
-        className="min-h-screen bg-gradient-to-b from-neutral-950 via-neutral-900 to-black text-white glow-bg"
-        style={{ background: "var(--dynamic-bg)" }}
-      >
-        <div ref={Elemen1} className="pt-16">
-          <HeroSection 
-            onExploreClick={handleExploreClick}
-            onJoinClick={handleJoinClick}
-          />
-        </div>
-
-        <div id="hero-2" ref={Elemen2} className="mt-40 w-full mt-5">
-          <div id="stepper-pengenalan" ref={Pengenalan} className="h-full">
-            <StepperSection onJoinClick={handleScrollToTop} />
-          </div>
-          <hr className="border-t border-neutral-700 my-12 mt-20 w-80 mx-auto" />
-          
-          <div className="text-2xl mx-auto ml-5 slate-200" style={{ fontFamily: "Inter, sans-serif" }}>
-            Temukan Motivasi Mu dan Berkolaborasi dengan kami
-          </div>
-          
-          <StatsSection refs={{Elemen3, Elemen4, Elemen5, Elemen6}} />
-        </div>
-
-        <h2 className="text-2xl font-semibold text-slate-200 mx-auto text-center" style={{ fontFamily: "Inter, sans-serif" }}> 
-          Artikel Blog
-        </h2>
-        <ArtikelLanding artikelList={artikelData.slice(0, 2)} />
-
-        {/* Kenapa Bergabung */}
-        <CommunityBenefits refs={{Elemen7, Elemen8, Elemen9, Elemen10}} />
-
-        <div className="p-4">
-          <ScrollReveal
-            baseOpacity={10}
-            enableBlur={true}
-            baseRotation={10}
-            blurStrength={10}
-          >
-            Kapan seseorang benar-benar maju? Saat dia berjuang sendirian? Tidak! Saat dia punya komunitas yang saling dukung. Dan itulah Grabals Community — tempatmu bertumbuh, berbagi, dan melangkah bersama.
-          </ScrollReveal>
-        </div>
-
-        <div ref={Elemen11} className="mt-12 sm:mt-20 items-center shadow-lg grid grid-cols-1 sm:grid-cols-[40%_60%] gap-4 sm:gap-0">
-          <div className="h-20 flex items-center justify-center">
-            <ShinyText
-              text="Member"
-              speed={10}
-              className="text-neutral-600 text-lg font-bold"
+    <>
+      <Layout>
+        <section
+          ref={root}
+          className="min-h-screen bg-gradient-to-b from-neutral-950 via-neutral-900 to-black text-white glow-bg"
+          style={{ background: "var(--dynamic-bg)" }}
+        >
+          {/* Hero Section */}
+          <div ref={Elemen1} className="py-8 md:py-12">
+            <HeroSection 
+              onExploreClick={handleExploreClick}
+              onJoinClick={handleJoinClick}
             />
           </div>
 
-          <div className="mt-8" style={{ height: '80px', position: 'relative', overflow: 'hidden'}}>
-            {photosLoading ? (
-              <div className="flex items-center justify-center h-full">
-                <div className="flex items-center space-x-2 text-gray-400">
-                  <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-emerald-500"></div>
-                  <span className="text-sm">Memuat foto member... ({imagesLoaded}/{memberPhotos.length})</span>
-                </div>
-              </div>
-            ) : (
-              <LogoLoop
-                logos={memberPhotos}
-                speed={150}
-                direction="left"
-                logoHeight={48}
-                gap={50}
-                pauseOnHover
-                scaleOnHover
-                fadeOut
-                fadeOutColor="#151414ff"
-                ariaLabel="Member photos"
-              />
-            )}
+          {/* Stepper Section */}
+          <div id="hero-2" ref={Elemen2} className="py-16 md:py-24">
+            <div id="stepper-pengenalan" ref={Pengenalan} className="h-full">
+              <StepperSection onJoinClick={handleScrollToTop} />
+            </div>
           </div>
-        </div>
+          
+          {/* Divider */}
+          <div className="py-8">
+            <hr className="border-t border-neutral-700 w-80 mx-auto" />
+          </div>
+          
+          {/* Stats Section */}
+          <div className="py-12 md:py-16">
+            <StatsSection refs={{Elemen3, Elemen4, Elemen5, Elemen6}} />
+          </div>
 
-        {/* Footer */}
-        <FooterSection refs={{Elemen12}} />
-      </section>
-    </div>
+          {/* Artikel Section */}
+          <div className="py-12 md:py-16">
+            <h2 className="text-2xl md:text-3xl font-semibold text-slate-200 mx-auto text-center mb-8" style={{ fontFamily: "Inter, sans-serif" }}> 
+              Artikel Blog
+            </h2>
+            <ArtikelLanding artikelList={artikelData.slice(0, 2)} />
+          </div>
+
+          {/* Community Benefits Section */}
+          <div className="py-12 md:py-16">
+            <CommunityBenefits refs={{Elemen7, Elemen8, Elemen9, Elemen10, Elemen13, Elemen14, Elemen15}} />
+          </div>
+
+          {/* Scroll Reveal Section */}
+          <div className="py-12 md:py-16 px-4">
+            <div className="max-w-2xl mx-auto text-center">
+              <ScrollReveal
+                baseOpacity={10}
+                enableBlur={true}
+                baseRotation={10}
+                blurStrength={10}
+              >
+                <p className="text-base sm:text-lg md:text-xl text-gray-300 leading-relaxed">
+                  Kapan seseorang benar-benar maju? Saat dia berjuang sendirian? Tidak! Saat dia punya komunitas yang saling dukung. Dan itulah Grabals Community — tempatmu bertumbuh, berbagi, dan melangkah bersama.
+                </p>
+              </ScrollReveal>
+            </div>
+          </div>
+
+          {/* Member Section */}
+          <div ref={Elemen11} className="py-12 md:py-16">
+            <div className="max-w-6xl mx-auto px-4 items-center shadow-lg grid grid-cols-1 sm:grid-cols-[40%_60%] gap-4 sm:gap-0">
+              <div className="h-20 flex items-center justify-center">
+                <ShinyText
+                  text="Member"
+                  speed={10}
+                  className="text-neutral-600 text-lg font-bold"
+                />
+              </div>
+
+              <div className="mt-8" style={{ height: '80px', position: 'relative', overflow: 'hidden'}}>
+                {photosLoading ? (
+                  <div className="flex items-center justify-center h-full">
+                    <div className="flex items-center space-x-2 text-gray-400">
+                      <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-ecru"></div>
+                      <span className="text-sm">Memuat foto member... ({imagesLoaded}/{memberPhotos.length})</span>
+                    </div>
+                  </div>
+                ) : (
+                  <LogoLoop
+                    logos={memberPhotos}
+                    speed={150}
+                    direction="left"
+                    logoHeight={48}
+                    gap={50}
+                    pauseOnHover
+                    scaleOnHover
+                    fadeOut
+                    fadeOutColor="#151414ff"
+                    ariaLabel="Member photos"
+                  />
+                )}
+              </div>
+            </div>
+          </div>
+        </section>
+      </Layout>
+
+      {/* Modal Login - Ditambahkan untuk memperbaiki tombol "Bergabung Sekarang" */}
+      <LoginModal 
+        isOpen={isLoginModalOpen} 
+        closeModal={() => setIsLoginModalOpen(false)} 
+      />
+    </>
   );
 }
 

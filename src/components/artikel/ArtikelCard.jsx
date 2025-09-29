@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 
 /**
  * Komponen ArtikelCard - Menampilkan kartu artikel dengan tampilan yang profesional
+ * Menggunakan warna kustom dari CustomColors.css
  * 
  * @param {Object} props - Properties komponen
  * @param {string} props.id - ID unik artikel
@@ -27,14 +28,14 @@ const ArtikelCard = ({ id, judul, ringkasan, gambar, tanggal, penulis, isLanding
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
         
         {/* Badge Tanggal */}
-        <div className="absolute top-3 right-3 bg-emerald-500 text-white text-xs font-medium px-2.5 py-1 rounded-full">
+        <div className="absolute top-3 right-3 bg-ecru text-raisin-black text-xs font-medium px-2.5 py-1 rounded-full">
           {tanggal}
         </div>
       </div>
       
       <div className="p-5">
         {/* Judul Artikel */}
-        <h3 className="text-xl font-bold text-white mb-2 line-clamp-2">
+        <h3 className="text-xl font-bold text-lavender-web mb-2 line-clamp-2">
           {judul}
         </h3>
         
@@ -46,7 +47,7 @@ const ArtikelCard = ({ id, judul, ringkasan, gambar, tanggal, penulis, isLanding
         <div className="flex justify-between items-center">
           {/* Info Penulis */}
           <div className="flex items-center">
-            <div className="w-8 h-8 rounded-full bg-gray-700 flex items-center justify-center text-gray-200 font-medium">
+            <div className="w-8 h-8 rounded-full bg-eggplant/50 flex items-center justify-center text-lavender-web font-medium">
               {penulis.charAt(0).toUpperCase()}
             </div>
             <span className="ml-2 text-sm text-gray-300">{penulis}</span>
@@ -55,7 +56,7 @@ const ArtikelCard = ({ id, judul, ringkasan, gambar, tanggal, penulis, isLanding
           {/* Tombol Baca Selengkapnya */}
           <Link 
             to={`/artikel/${id}`} 
-            className="text-sm font-medium text-emerald-400 hover:text-emerald-300 flex items-center"
+            className="text-sm font-medium text-ecru hover:text-rose-quartz flex items-center"
           >
             Baca
             <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">

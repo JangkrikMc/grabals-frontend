@@ -14,7 +14,7 @@ export default function ElasticSlider({
   rightIcon = <>+</>
 }) {
   return (
-    <div className={`flex flex-col items-center justify-center w-38 ${className}`}>
+    <div className={`flex flex-col items-center justify-center w-full ${className}`}>
       <Slider
         defaultValue={defaultValue}
         startingValue={startingValue}
@@ -91,7 +91,7 @@ function Slider({ defaultValue, startingValue, maxValue, isStepped, stepSize, le
   };
 
   return (
-    <>
+    <div className="flex flex-col items-center justify-center w-full">
       <motion.div
         onHoverStart={() => animate(scale, 1.2)}
         onHoverEnd={() => animate(scale, 1)}
@@ -101,7 +101,7 @@ function Slider({ defaultValue, startingValue, maxValue, isStepped, stepSize, le
           scale,
           opacity: useTransform(scale, [1, 1.2], [0.7, 1])
         }}
-        className="flex w-[80%] touch-none select-none items-center justify-center gap-2 mt-4 mr-"
+        className="flex w-full touch-none select-none items-center justify-center gap-2 mt-4"
       >
         <motion.div
           animate={{
@@ -117,7 +117,7 @@ function Slider({ defaultValue, startingValue, maxValue, isStepped, stepSize, le
 
         <div
           ref={sliderRef}
-          className="flex max-w-[60%] flex-grow cursor-grab touch-none select-none items-center "
+          className="flex w-full max-w-[70%] flex-grow cursor-grab touch-none select-none items-center"
           onPointerMove={handlePointerMove}
           onPointerDown={handlePointerDown}
           onPointerUp={handlePointerUp}
@@ -143,7 +143,7 @@ function Slider({ defaultValue, startingValue, maxValue, isStepped, stepSize, le
             }}
             className="flex flex-grow"
           >
-            <div className="relative h-full flex-grow overflow-hidden rounded-full bg-gray-400">
+            <div className="relative h-full w-full flex-grow overflow-hidden rounded-full bg-gray-400">
               <div className="absolute h-full bg-gray-500 rounded-full" style={{ width: `${getRangePercentage()}%` }} />
             </div>
           </motion.div>
@@ -161,10 +161,10 @@ function Slider({ defaultValue, startingValue, maxValue, isStepped, stepSize, le
           {rightIcon}
         </motion.div>
       </motion.div>
-      <p className="absolute text-gray-400 transform -translate-y-4 text-xs font-medium tracking-wide">
+      <p className="text-gray-400 text-xs font-medium tracking-wide mt-1">
         {Math.round(value)}
       </p>
-    </>
+    </div>
   );
 }
 

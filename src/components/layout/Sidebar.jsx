@@ -4,6 +4,7 @@ import { animate } from "@motionone/dom";
 
 /**
  * Komponen Sidebar - Sidebar navigasi dengan animasi
+ * Menggunakan warna kustom dari CustomColors.css
  * 
  * @param {Object} props - Properties komponen
  * @param {boolean} props.isOpen - Status sidebar (terbuka/tertutup)
@@ -75,27 +76,27 @@ const Sidebar = ({ isOpen, closeSidebar, openLoginModal }) => {
       {/* Overlay dengan efek blur */}
       <div 
         ref={overlayRef}
-        className="absolute inset-0 bg-black/50 backdrop-blur-sm"
+        className="absolute inset-0 bg-black/70 backdrop-blur-md"
         onClick={closeSidebar}
       />
 
       {/* Sidebar */}
       <div 
         ref={sidebarRef}
-        className="absolute top-0 right-0 w-72 h-full bg-neutral-900 shadow-xl flex flex-col"
+        className="absolute top-0 right-0 w-72 h-full bg-raisin-black shadow-xl flex flex-col"
         style={{ transform: "translateX(100%)" }}
       >
         {/* Header Sidebar */}
-        <div className="flex justify-between items-center p-4 border-b border-neutral-800">
-          <h2 className="text-xl font-bold text-emerald-500">Menu</h2>
+        <div className="flex justify-between items-center p-4 border-b border-eggplant/30">
+          <h2 className="text-xl font-bold text-ecru">Menu</h2>
           <button 
             onClick={closeSidebar}
-            className="p-2 rounded-full hover:bg-neutral-800 transition-colors"
+            className="p-2 rounded-full hover:bg-eggplant/30 transition-colors"
             aria-label="Tutup Menu"
           >
             <svg 
               xmlns="http://www.w3.org/2000/svg" 
-              className="h-6 w-6 text-white" 
+              className="h-6 w-6 text-lavender-web" 
               fill="none" 
               viewBox="0 0 24 24" 
               stroke="currentColor"
@@ -117,7 +118,7 @@ const Sidebar = ({ isOpen, closeSidebar, openLoginModal }) => {
               <Link 
                 to="/"
                 onClick={closeSidebar}
-                className="block py-2 px-4 text-white hover:bg-neutral-800 rounded-lg transition-colors"
+                className="block py-2 px-4 text-lavender-web hover:bg-eggplant/30 rounded-lg transition-colors"
               >
                 Beranda
               </Link>
@@ -126,7 +127,7 @@ const Sidebar = ({ isOpen, closeSidebar, openLoginModal }) => {
               <Link 
                 to="/artikel"
                 onClick={closeSidebar}
-                className="block py-2 px-4 text-white hover:bg-neutral-800 rounded-lg transition-colors"
+                className="block py-2 px-4 text-lavender-web hover:bg-eggplant/30 rounded-lg transition-colors"
               >
                 Artikel
               </Link>
@@ -135,7 +136,7 @@ const Sidebar = ({ isOpen, closeSidebar, openLoginModal }) => {
               <Link 
                 to="/about"
                 onClick={closeSidebar}
-                className="block py-2 px-4 text-white hover:bg-neutral-800 rounded-lg transition-colors"
+                className="block py-2 px-4 text-lavender-web hover:bg-eggplant/30 rounded-lg transition-colors"
               >
                 Tentang Kami
               </Link>
@@ -144,7 +145,7 @@ const Sidebar = ({ isOpen, closeSidebar, openLoginModal }) => {
               <Link 
                 to="/syarat-ketentuan"
                 onClick={closeSidebar}
-                className="block py-2 px-4 text-white hover:bg-neutral-800 rounded-lg transition-colors"
+                className="block py-2 px-4 text-lavender-web hover:bg-eggplant/30 rounded-lg transition-colors"
               >
                 Syarat & Ketentuan
               </Link>
@@ -153,13 +154,13 @@ const Sidebar = ({ isOpen, closeSidebar, openLoginModal }) => {
         </nav>
 
         {/* Footer Sidebar dengan tombol login */}
-        <div className="mt-auto border-t border-neutral-800 p-4">
+        <div className="mt-auto border-t border-eggplant/30 p-4">
           <button
             onClick={() => {
               closeSidebar();
               openLoginModal();
             }}
-            className="w-full py-3 px-4 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg transition-colors font-medium"
+            className="w-full py-3 px-4 bg-eggplant hover:bg-secondary-button-hover text-lavender-web rounded-lg transition-colors font-medium"
           >
             Masuk / Daftar
           </button>

@@ -82,7 +82,7 @@ const LoginModal = ({ isOpen, closeModal }) => {
   const handleLogin = (e) => {
     e.preventDefault();
     // Contoh integrasi dengan backend
-    console.log("Login dengan:", { email: loginEmail, password: loginPassword });
+    // Login dengan email dan password
     // Implementasi login sebenarnya akan mengirim request ke backend
     // Contoh: 
     // api.post('/auth/login', { email: loginEmail, password: loginPassword })
@@ -100,7 +100,7 @@ const LoginModal = ({ isOpen, closeModal }) => {
   const handleRegister = (e) => {
     e.preventDefault();
     // Contoh integrasi dengan backend
-    console.log("Register dengan:", { 
+    // Register dengan: { 
       name: registerName, 
       email: registerEmail, 
       password: registerPassword,
@@ -126,7 +126,7 @@ const LoginModal = ({ isOpen, closeModal }) => {
   // Handler untuk login dengan Google
   const handleGoogleLogin = () => {
     // Implementasi login dengan Google
-    console.log("Login dengan Google");
+    // Login dengan Google
     // Contoh integrasi dengan backend:
     // window.location.href = 'https://api.grabals.com/auth/google';
   };
@@ -146,12 +146,12 @@ const LoginModal = ({ isOpen, closeModal }) => {
       {/* Modal */}
       <div 
         ref={modalRef}
-        className="relative bg-neutral-900 rounded-xl shadow-2xl w-full max-w-md mx-4 overflow-hidden"
+        className="relative bg-raisin-black rounded-xl shadow-2xl w-full max-w-md mx-4 overflow-hidden"
         style={{ opacity: 0, transform: "scale(0.9)" }}
       >
         {/* Header Modal */}
         <div className="flex justify-between items-center p-5 border-b border-neutral-800">
-          <h2 className="text-xl font-bold text-emerald-500">
+          <h2 className="text-xl font-bold text-ecru">
             {isLogin ? "Masuk ke Akun" : "Daftar Akun Baru"}
           </h2>
           <button 
@@ -183,7 +183,7 @@ const LoginModal = ({ isOpen, closeModal }) => {
             <button
               onClick={() => setIsLogin(true)}
               className={`flex-1 py-2 rounded-md transition-colors ${
-                isLogin ? "bg-emerald-600 text-white" : "text-gray-400 hover:text-white"
+                isLogin ? "bg-eggplant text-white" : "text-gray-400 hover:text-white"
               }`}
             >
               Masuk
@@ -191,7 +191,7 @@ const LoginModal = ({ isOpen, closeModal }) => {
             <button
               onClick={() => setIsLogin(false)}
               className={`flex-1 py-2 rounded-md transition-colors ${
-                !isLogin ? "bg-emerald-600 text-white" : "text-gray-400 hover:text-white"
+                !isLogin ? "bg-eggplant text-white" : "text-gray-400 hover:text-white"
               }`}
             >
               Daftar
@@ -230,7 +230,7 @@ const LoginModal = ({ isOpen, closeModal }) => {
                   id="email"
                   value={loginEmail}
                   onChange={(e) => setLoginEmail(e.target.value)}
-                  className="w-full px-4 py-2 bg-neutral-800 border border-neutral-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 text-white"
+                  className="w-full px-4 py-2 bg-neutral-800 border border-neutral-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-ecru text-white"
                   placeholder="nama@email.com"
                   required
                 />
@@ -244,7 +244,7 @@ const LoginModal = ({ isOpen, closeModal }) => {
                   id="password"
                   value={loginPassword}
                   onChange={(e) => setLoginPassword(e.target.value)}
-                  className="w-full px-4 py-2 bg-neutral-800 border border-neutral-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 text-white"
+                  className="w-full px-4 py-2 bg-neutral-800 border border-neutral-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-ecru text-white"
                   placeholder="••••••••"
                   required
                 />
@@ -255,21 +255,21 @@ const LoginModal = ({ isOpen, closeModal }) => {
                     id="remember-me"
                     name="remember-me"
                     type="checkbox"
-                    className="h-4 w-4 text-emerald-600 focus:ring-emerald-500 border-neutral-700 rounded bg-neutral-800"
+                    className="h-4 w-4 text-ecru focus:ring-ecru border-neutral-700 rounded bg-neutral-800"
                   />
                   <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-300">
                     Ingat saya
                   </label>
                 </div>
                 <div className="text-sm">
-                  <a href="#" className="text-emerald-500 hover:text-emerald-400">
+                  <a href="#" className="text-ecru hover:text-primary-button-hover">
                     Lupa password?
                   </a>
                 </div>
               </div>
               <button
                 type="submit"
-                className="w-full py-2 px-4 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg transition-colors"
+                className="w-full py-2 px-4 bg-eggplant hover:bg-secondary-button-hover text-white rounded-lg transition-colors"
               >
                 Masuk
               </button>
@@ -285,7 +285,7 @@ const LoginModal = ({ isOpen, closeModal }) => {
                   id="name"
                   value={registerName}
                   onChange={(e) => setRegisterName(e.target.value)}
-                  className="w-full px-4 py-2 bg-neutral-800 border border-neutral-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 text-white"
+                  className="w-full px-4 py-2 bg-neutral-800 border border-neutral-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-ecru text-white"
                   placeholder="Nama lengkap"
                   required
                 />
@@ -299,7 +299,7 @@ const LoginModal = ({ isOpen, closeModal }) => {
                   id="register-email"
                   value={registerEmail}
                   onChange={(e) => setRegisterEmail(e.target.value)}
-                  className="w-full px-4 py-2 bg-neutral-800 border border-neutral-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 text-white"
+                  className="w-full px-4 py-2 bg-neutral-800 border border-neutral-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-ecru text-white"
                   placeholder="nama@email.com"
                   required
                 />
@@ -313,7 +313,7 @@ const LoginModal = ({ isOpen, closeModal }) => {
                   id="register-password"
                   value={registerPassword}
                   onChange={(e) => setRegisterPassword(e.target.value)}
-                  className="w-full px-4 py-2 bg-neutral-800 border border-neutral-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 text-white"
+                  className="w-full px-4 py-2 bg-neutral-800 border border-neutral-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-ecru text-white"
                   placeholder="••••••••"
                   required
                 />
@@ -327,7 +327,7 @@ const LoginModal = ({ isOpen, closeModal }) => {
                   id="birthdate"
                   value={registerBirthdate}
                   onChange={(e) => setRegisterBirthdate(e.target.value)}
-                  className="w-full px-4 py-2 bg-neutral-800 border border-neutral-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 text-white"
+                  className="w-full px-4 py-2 bg-neutral-800 border border-neutral-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-ecru text-white"
                   required
                 />
               </div>
@@ -336,7 +336,7 @@ const LoginModal = ({ isOpen, closeModal }) => {
                   id="terms"
                   name="terms"
                   type="checkbox"
-                  className="h-4 w-4 text-emerald-600 focus:ring-emerald-500 border-neutral-700 rounded bg-neutral-800"
+                  className="h-4 w-4 text-ecru focus:ring-ecru border-neutral-700 rounded bg-neutral-800"
                   required
                 />
                 <label htmlFor="terms" className="ml-2 block text-sm text-gray-300">
@@ -344,7 +344,7 @@ const LoginModal = ({ isOpen, closeModal }) => {
                   <Link 
                     to="/syarat-ketentuan" 
                     onClick={closeModal}
-                    className="text-emerald-500 hover:text-emerald-400"
+                    className="text-ecru hover:text-primary-button-hover"
                   >
                     Syarat & Ketentuan
                   </Link>
@@ -352,7 +352,7 @@ const LoginModal = ({ isOpen, closeModal }) => {
               </div>
               <button
                 type="submit"
-                className="w-full py-2 px-4 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg transition-colors"
+                className="w-full py-2 px-4 bg-eggplant hover:bg-secondary-button-hover text-white rounded-lg transition-colors"
               >
                 Daftar
               </button>

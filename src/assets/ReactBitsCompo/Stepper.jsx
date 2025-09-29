@@ -116,7 +116,7 @@ export default function Stepper({
               )}
               <button
                 onClick={isLastStep ? handleComplete : handleNext}
-                className="duration-350 flex items-center justify-center rounded-full bg-green-500 py-1.5 px-3.5 font-medium tracking-tight text-white transition hover:bg-green-600 active:bg-green-700"
+                className="duration-350 flex items-center justify-center rounded-full bg-ecru py-1.5 px-3.5 font-medium tracking-tight text-raisin-black transition hover:bg-eggplant hover:text-white active:bg-rose-quartz"
                 {...nextButtonProps}
               >
                 {isLastStep ? 'Complete' : nextButtonText}
@@ -209,14 +209,14 @@ function StepIndicator({ step, currentStep, onClickStep, disableStepIndicators }
       <motion.div
         variants={{
           inactive: { scale: 1, backgroundColor: '#222222ff', color: '#a3a3a3' },
-          active: { scale: 1, backgroundColor: '#656768ff', color: '#5227FF' },
-          complete: { scale: 1, backgroundColor: '#2ef86bff', color: '#3b82f6' }
+          active: { scale: 1, backgroundColor: '#656768ff', color: '#C6AD7E' },
+          complete: { scale: 1, backgroundColor: '#C6AD7E', color: '#282130' }
         }}
         transition={{ duration: 0.3 }}
         className="flex h-8 w-8 items-center justify-center rounded-full font-semibold"
       >
         {status === 'complete' ? (
-          <CheckIcon className="h-4 w-4 text-black" />
+          <CheckIcon className="h-4 w-4 text-raisin-black" />
         ) : status === 'active' ? (
           <div className="h-3 w-3 rounded-full bg-[#060010]" />
         ) : (
@@ -230,7 +230,7 @@ function StepIndicator({ step, currentStep, onClickStep, disableStepIndicators }
 function StepConnector({ isComplete }) {
   const lineVariants = {
     incomplete: { width: 0, backgroundColor: 'transparent' },
-    complete: { width: '100%', backgroundColor: '#5227FF' }
+    complete: { width: '100%', backgroundColor: '#66455A' }
   };
 
   return (

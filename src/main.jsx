@@ -1,16 +1,27 @@
-import React from "react";
+import React, { lazy, Suspense } from "react";
 import ReactDOM from "react-dom/client";
 import { Provider } from "react-redux";
 import { store } from "./store/store";
 import { createBrowserRouter, RouterProvider, createHashRouter } from "react-router-dom";
 import "./index.css";
+import LoadingScreen from "./components/layout/LoadingScreen";
 
-import Home from "./pages/Home";
-import About from "./pages/About";
-import LandingGrabals from "./pages/Landing_grabals/LandingGrabals";
-import ArtikelPage from "./pages/Artikel/ArtikelPage";
-import ArtikelDetailPage from "./pages/Artikel/ArtikelDetailPage";
-import SyaratKetentuan from "./pages/SyaratKetentuan";
+// Lazy load semua halaman untuk meningkatkan performa
+const LandingGrabals = lazy(() => import("./pages/Landing_grabals/LandingGrabals"));
+const Home = lazy(() => import("./pages/Home"));
+const About = lazy(() => import("./pages/About"));
+const ArtikelPage = lazy(() => import("./pages/Artikel/ArtikelPage"));
+const ArtikelDetailPage = lazy(() => import("./pages/Artikel/ArtikelDetailPage"));
+const SyaratKetentuan = lazy(() => import("./pages/SyaratKetentuan"));
+
+// Komponen wrapper untuk menampilkan loading screen saat halaman dimuat
+const PageLoader = ({ children }) => {
+  return (
+    <Suspense fallback={<LoadingScreen />}>
+      {children}
+    </Suspense>
+  );
+};
 
 // Menggunakan createHashRouter sebagai solusi untuk masalah refresh halaman
 // HashRouter menggunakan hash (#) di URL yang tidak memerlukan server-side routing
@@ -18,27 +29,27 @@ import SyaratKetentuan from "./pages/SyaratKetentuan";
 const router = createHashRouter([
   {
     path: "/",
-    element: <LandingGrabals/>,
+    element: <PageLoader><LandingGrabals /></PageLoader>,
   },
   {
     path: "/home",
-    element: <Home />,
+    element: <PageLoader><Home /></PageLoader>,
   },
   {
     path: "/about",
-    element: <About />,
+    element: <PageLoader><About /></PageLoader>,
   },
   {
     path: "/artikel",
-    element: <ArtikelPage />,
+    element: <PageLoader><ArtikelPage /></PageLoader>,
   },
   {
     path: "/artikel/:id",
-    element: <ArtikelDetailPage />,
+    element: <PageLoader><ArtikelDetailPage /></PageLoader>,
   },
   {
     path: "/syarat-ketentuan",
-    element: <SyaratKetentuan />,
+    element: <PageLoader><SyaratKetentuan /></PageLoader>,
   },
 ]);
 
