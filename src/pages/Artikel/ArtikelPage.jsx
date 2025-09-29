@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import Layout from "../../components/layout/Layout";
 import ArtikelHeader from "../../components/artikel/ArtikelHeader";
 import ArtikelList from "../../components/artikel/ArtikelList";
 
@@ -106,21 +107,23 @@ const ArtikelPage = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-neutral-950 via-neutral-900 to-black text-white">
-      {/* Header dengan fitur pencarian */}
-      <ArtikelHeader onSearch={handleSearch} />
-      
-      {/* Konten Utama */}
-      <main>
-        {isLoading ? (
-          <div className="flex justify-center items-center h-64">
-            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-emerald-500"></div>
-          </div>
-        ) : (
-          <ArtikelList artikelList={artikelList} searchTerm={searchTerm} />
-        )}
-      </main>
-    </div>
+    <Layout>
+      <div className="min-h-screen">
+        {/* Header dengan fitur pencarian */}
+        <ArtikelHeader onSearch={handleSearch} />
+        
+        {/* Konten Utama */}
+        <main className="pt-4">
+          {isLoading ? (
+            <div className="flex justify-center items-center h-64">
+              <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-emerald-500"></div>
+            </div>
+          ) : (
+            <ArtikelList artikelList={artikelList} searchTerm={searchTerm} />
+          )}
+        </main>
+      </div>
+    </Layout>
   );
 };
 

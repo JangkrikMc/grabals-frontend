@@ -1,24 +1,18 @@
 import React, { useEffect, useRef, useState } from "react";
 import '../../assets/globalcss/Background.css';
-import { Swiper, SwiperSlide } from "swiper/react";
-import { EffectFlip, Navigation } from "swiper/modules";
-import "swiper/css/effect-flip";
-import "swiper/swiper.css";
 import { animate } from "animejs";
 
 // Import components
+import Layout from "../../components/layout/Layout";
 import HeroSection from "../../components/LandingSections/HeroSection";
 import StepperSection from "../../components/LandingSections/StepperSection";
-import AuthModal from "../../components/LandingSections/AuthModal";
-import MemberChart from "../../components/LandingSections/MemberChart";
 import StatsSection from "../../components/LandingSections/StatsSection";
 import CommunityBenefits from "../../components/LandingSections/CommunityBenefits";
 import FooterSection from "../../components/LandingSections/FooterSection";
-import TechStack from "../../components/LandingSections/TechStack";
 import ScrollReveal from "/src/assets/ReactBitsCompo/ScrollDown";
 import ShinyText from "/src/assets/ReactBitsCompo/ShinyText";
 import LogoLoop from "/src/assets/ReactBitsCompo/LogoLoop";
-import LaserFlow from "/src/assets/ReactBitsCompo/LaserFlow";
+import LoginModal from "../../components/auth/LoginModal";
 
 // Import artikel components dan data
 import ArtikelLanding from "../../components/artikel/ArtikelLanding";
@@ -56,8 +50,9 @@ window.addEventListener("load", handleBgScroll);
 
 export default function LandingGrabals() {
   const root = useRef(null);
-  const swiperRef = useRef(null);
   const Pengenalan = useRef(null);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
 
   const Elemen1 = useRef(null);
   const Elemen2 = useRef(null);
@@ -229,8 +224,11 @@ export default function LandingGrabals() {
     Pengenalan.current?.scrollIntoView({ behavior: "smooth" });
   };
 
+  // Handler untuk tombol Bergabung - sekarang membuka modal login
   const handleJoinClick = () => {
-    swiperRef.current?.slideNext();
+    // Buka modal login
+    setIsLoginModalOpen(true);
+    console.log("Join button clicked, setting modal open to true");
   };
 
   const handleScrollToTop = () => {
@@ -240,104 +238,124 @@ export default function LandingGrabals() {
     }
   };
 
+  // Fungsi untuk toggle sidebar
+  const toggleSidebar = () => {
+    setIsSidebarOpen(!isSidebarOpen);
+  };
+
+  // Fungsi untuk menutup sidebar
+  const closeSidebar = () => {
+    setIsSidebarOpen(false);
+  };
+
+  // Fungsi untuk menutup modal login
+  const closeLoginModal = () => {
+    setIsLoginModalOpen(false);
+  };
+
   return (
-    <section
-      ref={root}
-      className="min-h-screen bg-gradient-to-b from-neutral-950 via-neutral-900 to-black text-white glow-bg"
-      style={{ background: "var(--dynamic-bg)" }}
-    >
-      <Swiper
-        effect="flip"
-        className="mySwiper relative overflow-hidden w-full h-full"
-        grabCursor={false}
-        speed={800}
-        flipEffect={{ slideShadows: false }}
-        modules={[EffectFlip, Navigation]}
-        onSwiper={(swiper) => (swiperRef.current = swiper)}
+    <div className="min-h-screen bg-gradient-to-b from-neutral-950 via-neutral-900 to-black text-white">
+      {/* Header */}
+      <Header toggleSidebar={toggleSidebar} />
+
+      {/* Sidebar */}
+      <Sidebar 
+        isOpen={isSidebarOpen} 
+        closeSidebar={closeSidebar} 
+        openLoginModal={() => setIsLoginModalOpen(true)}
+      />
+
+      {/* Login Modal */}
+      <LoginModal 
+        isOpen={isLoginModalOpen} 
+        closeModal={closeLoginModal} 
+      />
+
+      <section
+        ref={root}
+        className="min-h-screen bg-gradient-to-b from-neutral-950 via-neutral-900 to-black text-white glow-bg"
+        style={{ background: "var(--dynamic-bg)" }}
       >
-        <div className="swiper-wrapper flex transition-transform duration-700 ease-in-out">
-          <SwiperSlide className="swiper-slide flex-shrink-0 w-full relative bg-slate-950 rounded-3xl">
-            <div ref={Elemen1}>
-              <HeroSection 
-                onExploreClick={handleExploreClick}
-                onJoinClick={handleJoinClick}
-              />
-            </div>
-          </SwiperSlide>
-          <SwiperSlide className="swiper-slide flex-shrink-0 w-full h-full relative">
-            <AuthModal />
-          </SwiperSlide>
-        </div>
-      </Swiper>
-
-      <div id="hero-2" ref={Elemen2} className="mt-40 w-full mt-5">
-        <div id="stepper-pengenalan" ref={Pengenalan} className="h-full">
-          <StepperSection onJoinClick={handleScrollToTop} />
-        </div>
-        <hr className="border-t border-neutral-700 my-12 mt-20 w-80 mx-auto" />
-        
-        <div className="text-2xl mx-auto ml-5 slate-200" style={{ fontFamily: "Inter, sans-serif" }}>
-          Temukan Motivasi Mu dan Berkolaborasi dengan kami
-        </div>
-        
-        <StatsSection refs={{Elemen3, Elemen4, Elemen5, Elemen6}} />
-      </div>
-
-      <h2 className="text-2xl font-semibold text-slate-200 mx-auto text-center" style={{ fontFamily: "Inter, sans-serif" }}> 
-        Artikel Blog
-      </h2>
-      <ArtikelLanding artikelList={artikelData.slice(0, 2)} />
-
-      {/* Kenapa Bergabung */}
-      <CommunityBenefits refs={{Elemen7, Elemen8, Elemen9, Elemen10}} />
-
-      <div className="p-4">
-        <ScrollReveal
-          baseOpacity={10}
-          enableBlur={true}
-          baseRotation={10}
-          blurStrength={10}
-        >
-          Kapan seseorang benar-benar maju? Saat dia berjuang sendirian? Tidak! Saat dia punya komunitas yang saling dukung. Dan itulah Grabals Community — tempatmu bertumbuh, berbagi, dan melangkah bersama.
-        </ScrollReveal>
-      </div>
-
-      <div ref={Elemen11} className="mt-12 sm:mt-20 items-center shadow-lg grid grid-cols-1 sm:grid-cols-[40%_60%] gap-4 sm:gap-0">
-        <div className="h-20 flex items-center justify-center">
-          <ShinyText
-            text="Member"
-            speed={10}
-            className="text-neutral-600 text-lg font-bold"
+        <div ref={Elemen1} className="pt-16">
+          <HeroSection 
+            onExploreClick={handleExploreClick}
+            onJoinClick={handleJoinClick}
           />
         </div>
 
-        <div className="mt-8" style={{ height: '80px', position: 'relative', overflow: 'hidden'}}>
-          {photosLoading ? (
-            <div className="flex items-center justify-center h-full">
-              <div className="flex items-center space-x-2 text-gray-400">
-                <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-emerald-500"></div>
-                <span className="text-sm">Memuat foto member... ({imagesLoaded}/{memberPhotos.length})</span>
-              </div>
-            </div>
-          ) : (
-            <LogoLoop
-              logos={memberPhotos}
-              speed={150}
-              direction="left"
-              logoHeight={48}
-              gap={50}
-              pauseOnHover
-              scaleOnHover
-              fadeOut
-              fadeOutColor="#151414ff"
-              ariaLabel="Member photos"
-            />
-          )}
+        <div id="hero-2" ref={Elemen2} className="mt-40 w-full mt-5">
+          <div id="stepper-pengenalan" ref={Pengenalan} className="h-full">
+            <StepperSection onJoinClick={handleScrollToTop} />
+          </div>
+          <hr className="border-t border-neutral-700 my-12 mt-20 w-80 mx-auto" />
+          
+          <div className="text-2xl mx-auto ml-5 slate-200" style={{ fontFamily: "Inter, sans-serif" }}>
+            Temukan Motivasi Mu dan Berkolaborasi dengan kami
+          </div>
+          
+          <StatsSection refs={{Elemen3, Elemen4, Elemen5, Elemen6}} />
         </div>
-      </div>
 
-      {/* Footer */}
-      <FooterSection refs={{Elemen12}} />
-    </section>
+        <h2 className="text-2xl font-semibold text-slate-200 mx-auto text-center" style={{ fontFamily: "Inter, sans-serif" }}> 
+          Artikel Blog
+        </h2>
+        <ArtikelLanding artikelList={artikelData.slice(0, 2)} />
+
+        {/* Kenapa Bergabung */}
+        <CommunityBenefits refs={{Elemen7, Elemen8, Elemen9, Elemen10}} />
+
+        <div className="p-4">
+          <ScrollReveal
+            baseOpacity={10}
+            enableBlur={true}
+            baseRotation={10}
+            blurStrength={10}
+          >
+            Kapan seseorang benar-benar maju? Saat dia berjuang sendirian? Tidak! Saat dia punya komunitas yang saling dukung. Dan itulah Grabals Community — tempatmu bertumbuh, berbagi, dan melangkah bersama.
+          </ScrollReveal>
+        </div>
+
+        <div ref={Elemen11} className="mt-12 sm:mt-20 items-center shadow-lg grid grid-cols-1 sm:grid-cols-[40%_60%] gap-4 sm:gap-0">
+          <div className="h-20 flex items-center justify-center">
+            <ShinyText
+              text="Member"
+              speed={10}
+              className="text-neutral-600 text-lg font-bold"
+            />
+          </div>
+
+          <div className="mt-8" style={{ height: '80px', position: 'relative', overflow: 'hidden'}}>
+            {photosLoading ? (
+              <div className="flex items-center justify-center h-full">
+                <div className="flex items-center space-x-2 text-gray-400">
+                  <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-emerald-500"></div>
+                  <span className="text-sm">Memuat foto member... ({imagesLoaded}/{memberPhotos.length})</span>
+                </div>
+              </div>
+            ) : (
+              <LogoLoop
+                logos={memberPhotos}
+                speed={150}
+                direction="left"
+                logoHeight={48}
+                gap={50}
+                pauseOnHover
+                scaleOnHover
+                fadeOut
+                fadeOutColor="#151414ff"
+                ariaLabel="Member photos"
+              />
+            )}
+          </div>
+        </div>
+
+        {/* Footer */}
+        <FooterSection refs={{Elemen12}} />
+      </section>
+    </div>
   );
 }
+
+// Import Header component
+import Header from "../../components/layout/Header";
+import Sidebar from "../../components/layout/Sidebar";
