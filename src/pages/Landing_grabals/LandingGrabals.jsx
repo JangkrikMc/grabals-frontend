@@ -20,12 +20,6 @@ import {
   FaAward,
   FaComments
 } from "react-icons/fa";
-
-// Import modular components
-import CommunityBenefits from "../../components/LandingSections/CommunityBenefits";
-import MemberLogos from "../../components/LandingSections/MemberLogos";
-import FooterSection from "../../components/LandingSections/FooterSection";
-import ArtikelCyber from "../../components/LandingSections/ArtikelCyber";
 import { SiTypescript, SiMongodb, SiMysql, SiNextdotjs, SiTailwindcss, SiReact } from "react-icons/si";
 import Carousel from "../../assets/ReactBitsCompo/Carousel";
 import Stepper, { Step } from "../../assets/ReactBitsCompo/Stepper";
@@ -225,48 +219,51 @@ useEffect(() => {
   const [photosLoading, setPhotosLoading] = useState(true);
   const [imagesLoaded, setImagesLoaded] = useState(0);
   
-  // Robust member photos loading with guaranteed fallback
+  // TRUE automatic discovery of ALL WebP photos in src/assets/foto-members directory
   useEffect(() => {
-    const loadMemberPhotos = async () => {
+    const discoverAllPhotosAutomatically = async () => {
       try {
-        // Import member photos using Promise.all for better error handling
-        const photoImports = [
-          import('/src/assets/foto-members/WhatsApp_Image_2025-09-24_at_19.20.57.webp?url'),
-          import('/src/assets/foto-members/WhatsApp_Image_2025-09-24_at_19.20.58.webp?url'),
-          import('/src/assets/foto-members/WhatsApp_Image_2025-09-24_at_19.20.59.webp?url'),
-          import('/src/assets/foto-members/WhatsApp_Image_2025-09-24_at_19.21.02.webp?url')
-        ];
+        // Gunakan import.meta.glob untuk benar-benar auto-detect SEMUA foto WebP
+        const photoModules = import.meta.glob('/src/assets/foto-members/*.webp', { 
+          eager: true,
+          query: '?url',
+          import: 'default'
+        });
         
-        const photoUrls = await Promise.all(photoImports);
+        const photoList = [];
+        let memberIndex = 1;
         
-        const photoList = photoUrls.map((module, index) => ({
-          src: module.default,
-          alt: `Member ${index + 1}`,
-          href: "#",
-          fileName: `member-${index + 1}`
-        }));
+        // Process ALL discovered photos automatically
+        for (const [path, photoUrl] of Object.entries(photoModules)) {
+          const fileName = path.split('/').pop().replace('.webp', '');
+          
+          // Skip the main logo/community photo if present
+          if (!fileName.includes('WhatsApp_Image_2025-09-22')) {
+            photoList.push({
+              src: photoUrl,
+              alt: `Member ${memberIndex}`,
+              href: "#",
+              fileName: fileName
+            });
+            memberIndex++;
+          }
+        }
         
-        console.log('Loaded member photos successfully:', photoList);
+        // Sort by filename for consistent order
+        photoList.sort((a, b) => a.fileName.localeCompare(b.fileName));
+        
         setMemberPhotos(photoList);
-        setPhotosLoading(false);
+        console.log(`🎯 TRUE Auto-deteksi berhasil: ${photoList.length} foto member ditemukan secara otomatis`);
+        console.log('📋 Foto yang ditemukan:', photoList.map(p => p.fileName));
         
       } catch (error) {
-        console.error('Error loading member photos, using placeholder fallback:', error);
-        // Reliable fallback with placeholder data that guarantees UI works
-        const placeholderPhotos = [
-          { src: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDgiIGhlaWdodD0iNDgiIHZpZXdCb3g9IjAgMCA0OCA0OCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjQ4IiBoZWlnaHQ9IjQ4IiByeD0iMjQiIGZpbGw9IiMzNzQxNTEiLz4KPHN2ZyB4PSIxMiIgeT0iMTIiIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIj4KPHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGZpbGw9Im5vbmUiIHZpZXdCb3g9IjAgMCAyNCAyNCIgc3Ryb2tlLXdpZHRoPSIxLjUiIHN0cm9rZT0iIzlDQTNBRiI+CiAgPHBhdGggc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBkPSJNMTUuNzUgNmEzLjc1IDMuNzUgMCAxMS03LjUgMCAzLjc1IDMuNzUgMCAwMTcuNSAwek00LjUwMSAyMC4xMThhNy41IDcuNSAwIDAxMTQuOTk4IDBNMTUuNzUgNmEzLjc1IDMuNzUgMCAxMS03LjUgMCAzLjc1IDMuNzUgMCAwMTcuNSAweiIgLz4KICA8L3N2Zz4KPC9zdmc+Cjwvc3ZnPgo=', alt: 'Member 1', href: '#', fileName: 'member-1' },
-          { src: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDgiIGhlaWdodD0iNDgiIHZpZXdCb3g9IjAgMCA0OCA0OCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjQ4IiBoZWlnaHQ9IjQ4IiByeD0iMjQiIGZpbGw9IiMzNzQxNTEiLz4KPHN2ZyB4PSIxMiIgeT0iMTIiIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIj4KPHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGZpbGw9Im5vbmUiIHZpZXdCb3g9IjAgMCAyNCAyNCIgc3Ryb2tlLXdpZHRoPSIxLjUiIHN0cm9rZT0iIzlDQTNBRiI+CiAgPHBhdGggc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBkPSJNMTUuNzUgNmEzLjc1IDMuNzUgMCAxMS03LjUgMCAzLjc1IDMuNzUgMCAwMTcuNSAwek00LjUwMSAyMC4xMThhNy41IDcuNSAwIDAxMTQuOTk4IDBNMTUuNzUgNmEzLjc1IDMuNzUgMCAxMS03LjUgMCAzLjc1IDMuNzUgMCAwMTcuNSAweiIgLz4KICA8L3N2Zz4KPC9zdmc+Cjwvc3ZnPgo=', alt: 'Member 2', href: '#', fileName: 'member-2' },
-          { src: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDgiIGhlaWdodD0iNDgiIHZpZXdCb3g9IjAgMCA0OCA0OCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjQ4IiBoZWlnaHQ9IjQ4IiByeD0iMjQiIGZpbGw9IiMzNzQxNTEiLz4KPHN2ZyB4PSIxMiIgeT0iMTIiIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIj4KPHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGZpbGw9Im5vbmUiIHZpZXdCb3g9IjAgMCAyNCAyNCIgc3Ryb2tlLXdpZHRoPSIxLjUiIHN0cm9rZT0iIzlDQTNBRiI+CiAgPHBhdGggc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBkPSJNMTUuNzUgNmEzLjc1IDMuNzUgMCAxMS03LjUgMCAzLjc1IDMuNzUgMCAwMTcuNSAwek00LjUwMSAyMC4xMThhNy41IDcuNSAwIDAxMTQuOTk4IDBNMTUuNzUgNmEzLjc1IDMuNzUgMCAxMS03LjUgMCAzLjc1IDMuNzUgMCAwMTcuNSAweiIgLz4KICA8L3N2Zz4KPC9zdmc+Cjwvc3ZnPgo=', alt: 'Member 3', href: '#', fileName: 'member-3' },
-          { src: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDgiIGhlaWdodD0iNDgiIHZpZXdCb3g9IjAgMCA0OCA0OCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjQ4IiBoZWlnaHQ9IjQ4IiByeD0iMjQiIGZpbGw9IiMzNzQxNTEiLz4KPHN2ZyB4PSIxMiIgeT0iMTIiIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIj4KPHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGZpbGw9Im5vbmUiIHZpZXdCb3g9IjAgMCAyNCAyNCIgc3Ryb2tlLXdpZHRoPSIxLjUiIHN0cm9rZT0iIzlDQTNBRiI+CiAgPHBhdGggc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBkPSJNMTUuNzUgNmEzLjc1IDMuNzUgMCAxMS03LjUgMCAzLjc1IDMuNzUgMCAwMTcuNSAwek00LjUwMSAyMC4xMThhNy41IDcuNSAwIDAxMTQuOTk4IDBNMTUuNzUgNmEzLjc1IDMuNzUgMCAxMS03LjUgMCAzLjc1IDMuNzUgMCAwMTcuNSAweiIgLz4KICA8L3N2Zz4KPC9zdmc+Cjwvc3ZnPgo=', alt: 'Member 4', href: '#', fileName: 'member-4' }
-        ];
-        
-        console.log('Using placeholder member photos due to import failure');
-        setMemberPhotos(placeholderPhotos);
-        setPhotosLoading(false);
+        console.error('❌ Error saat auto-deteksi foto:', error);
+        // Fallback kosong - tidak ada foto hardcoded
+        setMemberPhotos([]);
       }
     };
     
-    loadMemberPhotos();
+    discoverAllPhotosAutomatically();
   }, []);
 
   // Fungsi untuk handle loading state foto
@@ -345,7 +342,10 @@ useEffect(() => {
     </SwiperSlide>
   </div>
 </Swiper>
+
+
   
+
   <div id="hero-2" ref={Elemen2} className="mt-40 w-full mt-5">
     
     <div id="stepper-pengenalan" ref={Pengenalan} className="h-full">
@@ -623,33 +623,131 @@ useEffect(() => {
   <h2 className="text-2xl font-semibold text-slate-200 mx-auto text-center" style={{ fontFamily: "Inter, sans-serif" }}> Artikel Blog</h2>
   <ArtikelCyber/>
 
-  {/* Kenapa Bergabung - Using Modular Component */}
-  <CommunityBenefits refs={{ Elemen7, Elemen8, Elemen9, Elemen10 }} />
+  {/* Kenapa Bergabung */}
+  <div ref={Elemen7} id="community" className="w-full py-20 px-8 text-center backdrop-blur-sm">
+  <h2 className="text-3xl md:text-4xl font-semibold text-white mb-8 glow-bg" style={{ fontFamily: "Inter, sans-serif" }}>
+    Kenapa Bergabung?
+  </h2>
 
- <div className="py-8 px-4 text-center max-w-4xl mx-auto">
+  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 max-w-5xl mx-auto px-4">
+
+    <div ref={Elemen8} className="bg-white/5 border border-white/20 rounded-2xl p-5 flex flex-col items-center shadow-md hover:scale-[1.02] transition">
+      <FaLightbulb className="text-3xl text-amber-400 mb-2" />
+      <h3 className="text-md font-semibold text-neutral-200 mb-1">Belajar & Eksperimen</h3>
+      <p className="text-gray-400 text-xs text-center">Kuasai teknologi baru dengan proyek nyata dan diskusi interaktif.</p>
+    </div>
+
+    <div ref={Elemen9} className="bg-white/5 border border-white/20 rounded-2xl p-5 flex flex-col items-center shadow-md hover:scale-[1.02] transition">
+      <FaUsers className="text-3xl text-emerald-400 mb-2" />
+      <h3 className="text-md font-semibold text-neutral-200 mb-1">Networking</h3>
+      <p className="text-gray-400 text-xs text-center">Bangun koneksi dengan developer, designer, dan kreator lain yang suportif.</p>
+    </div>
+
+    <div ref={Elemen10} className="bg-white/5 border border-white/20 rounded-2xl p-5 flex flex-col items-center shadow-md hover:scale-[1.02] transition">
+      <FaRocket className="text-3xl text-rose-400 mb-2" />
+      <h3 className="text-md font-semibold text-neutral-200 mb-1">Proyek Nyata</h3>
+      <p className="text-gray-400 text-xs text-center">Terlibat di proyek komunitas yang menantang dan inovatif.</p>
+    </div>
+
+    
+
+   </div>
+</div>
+
+ <div className="p-4">
    <ScrollReveal
-     baseOpacity={10}
-     enableBlur={true}
-     baseRotation={10}
-     blurStrength={10}
-   >
-     <p className="text-lg md:text-xl text-gray-300 leading-relaxed italic font-light" style={{ fontFamily: "Inter, sans-serif" }}>
-       Kapan seseorang benar-benar maju? Saat dia berjuang sendirian? Tidak! Saat dia punya komunitas yang saling dukung. Dan itulah Grabals Community — tempatmu bertumbuh, berbagi, dan melangkah bersama.
-     </p>
-   </ScrollReveal>
+  baseOpacity={10}
+  enableBlur={true}
+  baseRotation={10}
+  blurStrength={10}
+>
+  Kapan seseorang benar-benar maju? Saat dia berjuang sendirian? Tidak! Saat dia punya komunitas yang saling dukung. Dan itulah Grabals Community — tempatmu bertumbuh, berbagi, dan melangkah bersama.
+</ScrollReveal>
  </div>
 
- {/* Member Photos - Using Modular Component */}
- <MemberLogos 
-   refs={{ Elemen11 }} 
-   imageLogos={memberPhotos}
-   photosLoading={photosLoading}
-   imagesLoaded={imagesLoaded}
- />
+ <div ref={Elemen11} className="mt-12 sm:mt-20 items-center shadow-lg grid grid-cols-1 sm:grid-cols-[40%_60%] gap-4 sm:gap-0">
+            <div className="h-20 flex items-center justify-center">
+              <ShinyText
+                text="Member"
+                speed={10}
+                className="text-neutral-600 text-lg font-bold"
+              />
+            </div>
+
+           <div className="mt-8" style={{ height: '80px', position: 'relative', overflow: 'hidden'}}>
+              {photosLoading ? (
+                <div className="flex items-center justify-center h-full">
+                  <div className="flex items-center space-x-2 text-gray-400">
+                    <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-emerald-500"></div>
+                    <span className="text-sm">Memuat foto member... ({imagesLoaded}/{memberPhotos.length})</span>
+                  </div>
+                </div>
+              ) : (
+                <LogoLoop
+                  logos={memberPhotos}
+                  speed={150}
+                  direction="left"
+                  logoHeight={48}
+                  gap={50}
+                  pauseOnHover
+                  scaleOnHover
+                  fadeOut
+                  fadeOutColor="#151414ff"
+                  ariaLabel="Member photos"
+                />
+              )}
+             </div>
+            <div>
+
+            </div>
+              
+        </div>
 
 
-{/* Footer - Using Modular Component */}
-<FooterSection refs={{ Elemen12 }} />
+{/* Footer */}
+<footer ref={Elemen12} className="relative text-gray-300 px-8 py-12 mt-8 border-t border-gray-700 bg-black/20 overflow-hidden">
+  {/* Background LaserFlow */}
+
+  {/* Konten Footer */}
+  <div className="relative z-10 max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
+    <div className="flex flex-col space-y-4">
+      <h3 className="text-white font-bold text-xl" style={{ fontFamily: "Inter, sans-serif" }}>Grabals</h3>
+      <p className="text-gray-400 text-lg">
+        Komunitas kolaboratif untuk developer, designer, dan tech enthusiast. Belajar dan bangun proyek bersama.
+      </p>
+    </div>
+    
+
+    <div className="flex flex-col space-y-2">
+      <h4 className="text-white font-semibold" style={{ fontFamily: "Inter, sans-serif" }}>Quick Links</h4>
+      <a href="#hero" className="hover:text-emerald-500 transition">Home</a>
+      <a href="#about" className="hover:text-emerald-500 transition">About</a>
+      <a href="#community" className="hover:text-emerald-500 transition">Community</a>
+      <a href="#contact" className="hover:text-emerald-500 transition">Contact</a>
+    </div>
+
+    <div className="flex flex-col space-y-2">
+      <h4 className="text-white font-semibold" style={{ fontFamily: "Inter, sans-serif" }}>Social Media</h4>
+      <div className="flex space-x-4">
+        <a href="#" className="hover:text-emerald-500 transition">Twitter</a>
+        <a href="#" className="hover:text-emerald-500 transition">Instagram</a>
+        <a href="#" className="hover:text-emerald-500 transition">LinkedIn</a>
+        <a href="#" className="hover:text-emerald-500 transition">GitHub</a>
+      </div>
+    </div>
+  </div>
+
+
+<div className="absolute inset-0 z-1000 pointer-events-none h-full">
+    <LaserFlow />
+  </div>
+  
+
+  <div className="relative z-10 text-center text-gray-500 text-sm mt-8">
+  
+    &copy; {new Date().getFullYear()} Grabals. All rights reserved.
+  </div>
+</footer>
 
 
 </section>
@@ -838,3 +936,55 @@ const LoginOrSignUpModal = () => {
   )
 }
 
+export function ArtikelCyber() {
+  return (
+    <div className="max-w-4xl mx-auto p-6">
+
+      <Swiper spaceBetween={30} slidesPerView={1}>
+        
+        {/* Halaman 1 */}
+        <SwiperSlide>
+          <div className="bg-white/80  rounded-2xl shadow-lg p-6">
+            <h2 className="text-3xl font-bold mb-4 text-gray-800">
+              Apa itu Cyber Security?
+            </h2>
+            <p className="text-gray-600 leading-relaxed mb-6">
+              Cyber security adalah upaya melindungi sistem, jaringan, dan data 
+              dari serangan digital. Dalam dunia modern, ancaman seperti 
+              malware, phishing, dan serangan DDoS bisa merugikan individu 
+              maupun organisasi.
+            </p>
+            <img 
+              src="data:image/jpeg;base64,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" 
+              alt="Cyber Security" 
+              className="rounded-xl shadow-md mx-auto"
+            />
+          </div>
+        </SwiperSlide>
+
+        {/* Halaman 2 */}
+        <SwiperSlide>
+          <div className="bg-white/80  rounded-2xl shadow-lg p-6">
+            <h2 className="text-3xl font-bold mb-4 text-gray-800">
+              Cara Sederhana Melindungi Diri
+            </h2>
+            <p className="text-gray-600 leading-relaxed mb-6">
+              Untuk menjaga keamanan digital, kamu bisa memulai dari langkah 
+              kecil yang sederhana:
+            </p>
+            <ul className="list-disc list-inside text-gray-600 space-y-2">
+              <li>Gunakan password yang kuat dan unik.</li>
+              <li>Aktifkan autentikasi dua faktor (2FA).</li>
+              <li>Hindari klik link mencurigakan di email.</li>
+              <li>Selalu update software & aplikasi.</li>
+            </ul>
+            <p className="text-gray-600 leading-relaxed mt-6">
+              Dengan kebiasaan ini, resiko terkena serangan bisa jauh berkurang.
+            </p>
+          </div>
+        </SwiperSlide>
+        
+      </Swiper>
+    </div>
+  );
+}
