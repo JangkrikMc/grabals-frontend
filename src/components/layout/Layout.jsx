@@ -1,8 +1,11 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import Header from "./Header";
 import Sidebar from "./Sidebar";
 import LoginModal from "../auth/LoginModal";
+import ProfileModal from "../auth/ProfileModal";
 import FooterSection from "../LandingSections/FooterSection";
+import { login } from "../../features/authSlice";
 
 /**
  * Komponen Layout - Wrapper untuk semua halaman dengan header dan sidebar
@@ -14,9 +17,12 @@ import FooterSection from "../LandingSections/FooterSection";
  * @returns {JSX.Element} Komponen Layout
  */
 const Layout = ({ children, isLoginModalOpen: externalLoginModalOpen, setIsLoginModalOpen: externalSetLoginModalOpen }) => {
+  const dispatch = useDispatch();
+  
   // Gunakan state internal jika tidak ada state eksternal yang diberikan
   const [internalIsSidebarOpen, setInternalIsSidebarOpen] = useState(false);
   const [internalIsLoginModalOpen, setInternalIsLoginModalOpen] = useState(false);
+  const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
 
   // Gunakan state eksternal jika diberikan, jika tidak gunakan state internal
   const isSidebarOpen = internalIsSidebarOpen;
@@ -45,6 +51,23 @@ const Layout = ({ children, isLoginModalOpen: externalLoginModalOpen, setIsLogin
     setIsLoginModalOpen(false);
   };
 
+  // Fungsi untuk membuka modal profil
+  const openProfileModal = () => {
+    setIsProfileModalOpen(true);
+  };
+
+  // Fungsi untuk menutup modal profil
+  const closeProfileModal = () => {
+    setIsProfileModalOpen(false);
+  };
+
+  // Fungsi untuk menangani login sukses
+  const handleLoginSuccess = (userData) => {
+    // Dispatch action login ke Redux store
+    dispatch(login(userData));
+    closeLoginModal();
+  };
+
   // Dummy refs untuk footer
   const footerRefs = {
     Elemen12: React.createRef()
@@ -60,12 +83,20 @@ const Layout = ({ children, isLoginModalOpen: externalLoginModalOpen, setIsLogin
         isOpen={isSidebarOpen} 
         closeSidebar={closeSidebar} 
         openLoginModal={openLoginModal}
+        openProfileModal={openProfileModal}
       />
 
       {/* Login Modal */}
       <LoginModal 
         isOpen={isLoginModalOpen} 
-        closeModal={closeLoginModal} 
+        closeModal={closeLoginModal}
+        onLoginSuccess={handleLoginSuccess}
+      />
+
+      {/* Profile Modal */}
+      <ProfileModal
+        isOpen={isProfileModalOpen}
+        closeModal={closeProfileModal}
       />
 
       {/* Main Content */}

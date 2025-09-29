@@ -85,8 +85,8 @@ const FooterSection = ({ refs }) => {
         </div>
       </div>
 
-      {/* Background LaserFlow */}
-      <div className="absolute inset-0 z-1000 pointer-events-none h-full opacity-30">
+      {/* Background LaserFlow - Diposisikan di tengah dengan z-index rendah */}
+      <div className="absolute inset-0 z-[1] pointer-events-none h-full w-full opacity-30">
         <LaserFlow />
       </div>
 

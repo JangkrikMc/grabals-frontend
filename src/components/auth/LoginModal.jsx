@@ -8,9 +8,11 @@ import { animate } from "@motionone/dom";
  * @param {Object} props - Properties komponen
  * @param {boolean} props.isOpen - Status modal (terbuka/tertutup)
  * @param {Function} props.closeModal - Fungsi untuk menutup modal
+ * @param {Function} onLoginSuccess - Fungsi callback yang dipanggil ketika login berhasil
+ * @param {Function} props.openForgotPasswordModal - Fungsi untuk membuka modal lupa password
  * @returns {JSX.Element} Komponen LoginModal
  */
-const LoginModal = ({ isOpen, closeModal }) => {
+const LoginModal = ({ isOpen, closeModal, onLoginSuccess }) => {
   const [isLogin, setIsLogin] = useState(true);
   const modalRef = useRef(null);
   const overlayRef = useRef(null);
@@ -89,11 +91,26 @@ const LoginModal = ({ isOpen, closeModal }) => {
     //   .then(response => {
     //     // Simpan token ke localStorage
     //     localStorage.setItem('token', response.data.token);
-    //     closeModal();
+    //     if (onLoginSuccess) {
+    //       onLoginSuccess(response.data.user);
+    //     } else {
+    //       closeModal();
+    //     }
     //   })
     //   .catch(error => {
     //     console.error('Login gagal:', error);
     //   });
+    
+    // Untuk demo, kita akan langsung memanggil onLoginSuccess dengan data dummy
+    if (onLoginSuccess) {
+      onLoginSuccess({
+        name: loginEmail.split('@')[0], // Menggunakan bagian depan email sebagai nama
+        email: loginEmail,
+        profilePicture: ""
+      });
+    } else {
+      closeModal();
+    }
   };
 
   // Handler untuk register

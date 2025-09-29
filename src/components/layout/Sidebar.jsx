@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { animate } from "@motionone/dom";
+import { useSelector } from "react-redux";
 
 /**
  * Komponen Sidebar - Sidebar navigasi dengan animasi
@@ -10,11 +11,15 @@ import { animate } from "@motionone/dom";
  * @param {boolean} props.isOpen - Status sidebar (terbuka/tertutup)
  * @param {Function} props.closeSidebar - Fungsi untuk menutup sidebar
  * @param {Function} props.openLoginModal - Fungsi untuk membuka modal login
+ * @param {Function} props.openProfileModal - Fungsi untuk membuka modal profil
  * @returns {JSX.Element} Komponen Sidebar
  */
-const Sidebar = ({ isOpen, closeSidebar, openLoginModal }) => {
+const Sidebar = ({ isOpen, closeSidebar, openLoginModal, openProfileModal }) => {
   const sidebarRef = useRef(null);
   const overlayRef = useRef(null);
+  
+  // Mengambil state autentikasi dari Redux
+  const { isLoggedIn, user } = useSelector((state) => state.auth);
 
   // Effect untuk menangani klik di luar sidebar
   useEffect(() => {
@@ -153,17 +158,53 @@ const Sidebar = ({ isOpen, closeSidebar, openLoginModal }) => {
           </ul>
         </nav>
 
-        {/* Footer Sidebar dengan tombol login */}
+        {/* Footer Sidebar dengan tombol login atau profil */}
         <div className="mt-auto border-t border-eggplant/30 p-4">
-          <button
-            onClick={() => {
-              closeSidebar();
-              openLoginModal();
-            }}
-            className="w-full py-3 px-4 bg-eggplant hover:bg-secondary-button-hover text-lavender-web rounded-lg transition-colors font-medium"
-          >
-            Masuk / Daftar
-          </button>
+          {isLoggedIn ? (
+            <button
+              onClick={() => {
+                closeSidebar();
+                openProfileModal();
+              }}
+              className="w-full flex items-center justify-center gap-3 py-3 px-4 bg-eggplant hover:bg-secondary-button-hover text-lavender-web rounded-lg transition-colors font-medium"
+            >
+              <div className="w-6 h-6 rounded-full bg-lavender-web/20 flex items-center justify-center overflow-hidden">
+                {user.profilePicture ? (
+                  <img 
+                    src={user.profilePicture} 
+                    alt={user.name} 
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  <svg 
+                    xmlns="http://www.w3.org/2000/svg" 
+                    className="h-4 w-4 text-lavender-web" 
+                    fill="none" 
+                    viewBox="0 0 24 24" 
+                    stroke="currentColor"
+                  >
+                    <path 
+                      strokeLinecap="round" 
+                      strokeLinejoin="round" 
+                      strokeWidth={2} 
+                      d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" 
+                    />
+                  </svg>
+                )}
+              </div>
+              <span className="truncate">{user.name || "Profil Saya"}</span>
+            </button>
+          ) : (
+            <button
+              onClick={() => {
+                closeSidebar();
+                openLoginModal();
+              }}
+              className="w-full py-3 px-4 bg-eggplant hover:bg-secondary-button-hover text-lavender-web rounded-lg transition-colors font-medium"
+            >
+              Masuk / Daftar
+            </button>
+          )}
         </div>
       </div>
     </div>

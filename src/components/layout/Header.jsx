@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import logoGrabals from "../../assets/icons/new/magic-wand.svg";
 
 /**
  * Komponen Header - Header interaktif dengan efek transparansi saat scroll
@@ -45,12 +44,36 @@ const Header = ({ toggleSidebar }) => {
         <div className="flex justify-between items-center py-4">
           {/* Logo dan Nama */}
           <div className="flex items-center space-x-2">
-            <img 
-              src={logoGrabals} 
-              alt="Grabals Logo" 
-              className="h-10 w-10"
-              style={{ filter: "invert(1)" }}
-            />
+            <svg width="32" height="32" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path 
+                d="M7.57932 35.4207C5.32303 32.1826 4 28.2458 4 24C4 12.9543 12.9543 4 24 4C35.0457 4 44 12.9543 44 24C44 35.0457 35.0457 44 24 44C19.7542 44 15.8174 42.677 12.5793 40.4207M7.57932 35.4207C8.93657 37.3685 10.6315 39.0634 12.5793 40.4207M7.57932 35.4207L16 27M12.5793 40.4207L21 32M16 27L20 23L25 28L21 32M16 27L21 32" 
+                stroke="#C6AD7E" 
+                strokeWidth="4" 
+                strokeLinecap="round" 
+                strokeLinejoin="round"
+              />
+              <path 
+                d="M17 14H21M19 12V16" 
+                stroke="#B4A2B5" 
+                strokeWidth="4" 
+                strokeLinecap="round" 
+                strokeLinejoin="round"
+              />
+              <path 
+                d="M28 17H34M31 14V20" 
+                stroke="#66455A" 
+                strokeWidth="4" 
+                strokeLinecap="round" 
+                strokeLinejoin="round"
+              />
+              <path 
+                d="M32 29H36M34 27V31" 
+                stroke="#D5D0DF" 
+                strokeWidth="4" 
+                strokeLinecap="round" 
+                strokeLinejoin="round"
+              />
+            </svg>
             <span className={`text-xl font-bold ${
               scrolled ? "text-ecru" : "text-white"
             } transition-colors duration-300`}>
