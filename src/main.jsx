@@ -12,7 +12,7 @@ import LandingGrabals from "./pages/Landing_grabals/LandingGrabals";
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <LandingGrabals/>
+    element: <LandingGrabals/>,
   },
   {
     path: "/home",

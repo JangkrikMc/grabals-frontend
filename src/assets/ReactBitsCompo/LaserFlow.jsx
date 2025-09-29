@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
 
 const VERT = `
@@ -271,6 +271,7 @@ export const LaserFlow = ({
   const emaDtRef = useRef(16.7);
   const pausedRef = useRef(false);
   const inViewRef = useRef(true);
+  const [webglSupported, setWebglSupported] = useState(true);
 
   const hexToRGB = hex => {
     let c = hex.trim();
@@ -286,9 +287,8 @@ export const LaserFlow = ({
 
   useEffect(() => {
     const mount = mountRef.current;
-    
-    // Try to create WebGL renderer with error handling
     let renderer;
+    
     try {
       renderer = new THREE.WebGLRenderer({
         antialias: false,
@@ -301,36 +301,12 @@ export const LaserFlow = ({
         failIfMajorPerformanceCaveat: false,
         logarithmicDepthBuffer: false
       });
+      rendererRef.current = renderer;
     } catch (error) {
-      console.warn('WebGL not supported, LaserFlow component will use fallback:', error);
-      // Create a fallback div with CSS animation
-      const fallbackDiv = document.createElement('div');
-      fallbackDiv.style.width = '100%';
-      fallbackDiv.style.height = '100%';
-      fallbackDiv.style.background = 'linear-gradient(45deg, rgba(31,103,125,0.3) 0%, rgba(31,103,125,0.1) 50%, rgba(31,103,125,0.3) 100%)';
-      fallbackDiv.style.backgroundSize = '200% 200%';
-      fallbackDiv.style.animation = 'laserFlow 4s ease-in-out infinite';
-      fallbackDiv.style.opacity = '0.7';
-      
-      // Add CSS animation
-      const style = document.createElement('style');
-      style.textContent = `
-        @keyframes laserFlow {
-          0% { background-position: 0% 50%; }
-          50% { background-position: 100% 50%; }
-          100% { background-position: 0% 50%; }
-        }
-      `;
-      document.head.appendChild(style);
-      
-      mount.appendChild(fallbackDiv);
-      return () => {
-        if (mount.contains(fallbackDiv)) mount.removeChild(fallbackDiv);
-        if (document.head.contains(style)) document.head.removeChild(style);
-      };
+      console.warn('WebGL tidak didukung, LaserFlow dinonaktifkan:', error.message);
+      setWebglSupported(false);
+      return;
     }
-    
-    rendererRef.current = renderer;
 
     baseDprRef.current = Math.min(dpr ?? (window.devicePixelRatio || 1), 2);
     currentDprRef.current = baseDprRef.current;
@@ -591,6 +567,16 @@ export const LaserFlow = ({
     fogFallSpeed,
     color
   ]);
+
+  // Fallback untuk perangkat yang tidak mendukung WebGL
+  if (!webglSupported) {
+    return (
+      <div className={`w-full h-full relative ${className || ''}`} style={style}>
+        {/* Background gradien sederhana sebagai fallback */}
+        <div className="w-full h-full bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 opacity-50" />
+      </div>
+    );
+  }
 
   return (
     <div
