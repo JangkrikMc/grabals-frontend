@@ -13,6 +13,7 @@ const About = lazy(() => import("./pages/About"));
 const ArtikelPage = lazy(() => import("./pages/Artikel/ArtikelPage"));
 const ArtikelDetailPage = lazy(() => import("./pages/Artikel/ArtikelDetailPage"));
 const SyaratKetentuan = lazy(() => import("./pages/SyaratKetentuan"));
+const NotFound = lazy(() => import("./pages/NotFound"));
 
 // Komponen wrapper untuk menampilkan loading screen saat halaman dimuat
 const PageLoader = ({ children }) => {
@@ -50,6 +51,10 @@ const router = createHashRouter([
   {
     path: "/syarat-ketentuan",
     element: <PageLoader><SyaratKetentuan /></PageLoader>,
+  },
+  {
+    path: "*",
+    element: <PageLoader><NotFound /></PageLoader>,
   },
 ]);
 
